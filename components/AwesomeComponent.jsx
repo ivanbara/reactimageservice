@@ -8,7 +8,7 @@ class AwesomeComponent extends React.Component {
 		this.onLike = this.onLike.bind(this);
 		this.style = 'mammothimg desaturate';
 	}
-
+  
 	onLike(){
 		let newLikesCount = this.state.likesCount + 1;
 		this.setState({likesCount: newLikesCount});
