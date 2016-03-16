@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
     <!DOCTYPE html>
     <html>
      <head>
-     <title>JSON Formatter</title>
+     <title>Isomorphimg</title>
      <link rel="stylesheet" type="text/css" href="css/styles.css">
      </head>
      <body>
