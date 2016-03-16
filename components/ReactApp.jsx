@@ -1,6 +1,6 @@
 import React from 'react';
 import AwesomeComponent from './AwesomeComponent';
-
+import SearchExampleComponent from './SearchExampleComponent';
 
 
 class ReactApp extends React.Component {
@@ -17,28 +17,6 @@ class ReactApp extends React.Component {
       value: JSON.stringify(placeholder, null, 4),
       txtClass: styles.textArea
     };
-  }
-
-  _validate() {
-    try {
-      let orig = JSON.parse(this.state.value);
-      let v = JSON.stringify(orig, null, 4);
-      this.setState({
-        value: v,
-        error: null,
-        txtClass: styles.textArea
-      });
-    }
-    catch (e) {
-      this.setState({
-        error: `Invalid JSON: ${e.name} - ${e.message}`,
-        txtClass: styles.textAreaError
-      });
-    }
-  }
-
-  _saveText(e) {
-    this.setState({value: e.target.value});
   }
 
   render() {
@@ -69,22 +47,6 @@ const styles = {
   error: {
     color: 'red',
   },
-  textArea: {
-    flex: '0 1 auto',
-    fontFamily: 'monospace'
-  },
-  textAreaError: {
-    flex: '0 1 auto',
-    fontFamily: 'monospace',
-    border: '1px solid red'
-  },
-  button: {
-    cursor: 'pointer',
-    flex: '0 1 auto',
-    marginTop: 20,
-    padding: 10,
-    fontSize: 14
-  }
 
 };
 

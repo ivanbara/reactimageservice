@@ -14,6 +14,10 @@ var _AwesomeComponent = require('./AwesomeComponent');
 
 var _AwesomeComponent2 = _interopRequireDefault(_AwesomeComponent);
 
+var _SearchExampleComponent = require('./SearchExampleComponent');
+
+var _SearchExampleComponent2 = _interopRequireDefault(_SearchExampleComponent);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -45,29 +49,6 @@ var ReactApp = function (_React$Component) {
   }
 
   _createClass(ReactApp, [{
-    key: '_validate',
-    value: function _validate() {
-      try {
-        var orig = JSON.parse(this.state.value);
-        var v = JSON.stringify(orig, null, 4);
-        this.setState({
-          value: v,
-          error: null,
-          txtClass: styles.textArea
-        });
-      } catch (e) {
-        this.setState({
-          error: 'Invalid JSON: ' + e.name + ' - ' + e.message,
-          txtClass: styles.textAreaError
-        });
-      }
-    }
-  }, {
-    key: '_saveText',
-    value: function _saveText(e) {
-      this.setState({ value: e.target.value });
-    }
-  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -107,22 +88,6 @@ var styles = {
   },
   error: {
     color: 'red'
-  },
-  textArea: {
-    flex: '0 1 auto',
-    fontFamily: 'monospace'
-  },
-  textAreaError: {
-    flex: '0 1 auto',
-    fontFamily: 'monospace',
-    border: '1px solid red'
-  },
-  button: {
-    cursor: 'pointer',
-    flex: '0 1 auto',
-    marginTop: 20,
-    padding: 10,
-    fontSize: 14
   }
 
 };
