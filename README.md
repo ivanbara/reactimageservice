@@ -8,3 +8,6 @@ React
 webpack
 gulp
 babel
+
+
+No templating package (e.g. jade, handlebars...) is used here, instead ES6 string templating is used.
