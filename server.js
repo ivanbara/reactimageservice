@@ -8,16 +8,7 @@ var cors = require('cors');
 const express = require('express');
 const app = express();
 
-app
-.use(function(req, res, next){
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-    next();
-})
-.options('*', function(req, res, next){
-    res.end();
-})
-;
+app.use(cors());
 
 //app.use('/static', express.static('public'));
 app.use(express.static('public'));
@@ -49,11 +40,17 @@ app.get('/', (req, res) => {
   res.send(html);
 });
 
-/*
-router.get('/', function(req, res){
-
+app.get('/bears', function(req, res){
+	res.json({data: [{"id":"id g",
+		"url": "https:\/\/scontent.cdninstagram.com\/t51.2885-19\/11007937_381359188712407_493937690_a.jpg",
+		"src": "https:\/\/scontent.cdninstagram.com\/t51.2885-15\/s320x320\/e35\/12819137_765877360181023_2038294020_n.jpg?ig_cache_key=MTIwODA3ODQxMDU5ODEyODE3NQ%3D%3D.2",
+		"title": "pic"},
+		{"id":"id d",
+		"url": "https:\/\/scontent.cdninstagram.com\/t51.2885-19\/11007937_381359188712407_493937690_a.jpg",
+		"src": "https:\/\/scontent.cdninstagram.com\/t51.2885-19\/11007937_381359188712407_493937690_a.jpg",
+		"title": "pic"}]
+		});
 });
-*/
 
 const server = app.listen(3000, () => {
   let port = server.address().port;

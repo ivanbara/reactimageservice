@@ -33,11 +33,13 @@ h1{
     padding-top: 20px;
 }
 
-div.picture{
+.picture{
     display: inline-block;
     margin: 5px;
     cursor:pointer;
     position: relative;
+    width: 200px;
+    height: 200px;
 }
 
 div.picture.favorite:after{
