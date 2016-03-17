@@ -1,21 +1,13 @@
 import React from 'react';
 import AwesomeComponent from './AwesomeComponent';
-import SearchExampleComponent from './SearchExampleComponent';
+import AjaxList from './AjaxList';
 
 
 class ReactApp extends React.Component {
   constructor(props) {
-    super(props);
-    const placeholder = {
-      try: 'removing some whitespace',
-      or: 'add valid JSON',
-      then: ['then', 'click', 'format'],
-      hi: 'mom!!!'
-    };
-    
+    super(props); 
     this.state = {
-      value: JSON.stringify(placeholder, null, 4),
-      txtClass: styles.textArea
+      value: 'set'
     };
   }
 
@@ -25,6 +17,7 @@ class ReactApp extends React.Component {
         <div className='navbar'>
           <h1 style={styles.header}>Isomorphimg</h1>
         </div>
+        <AjaxList apiKey='642176ece1e7445e99244cec26f4de1f' />
         <AwesomeComponent img='./img/mammoth_happy.png' adj='Like'/>
         <div className='imageContainer'>
           images

@@ -4,14 +4,24 @@ const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const ReactApp = require("./es5-lib/ReactApp").default;
 
-
+var cors = require('cors');
 const express = require('express');
 const app = express();
 
-var router = express.Router();
+app
+.use(function(req, res, next){
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+    next();
+})
+.options('*', function(req, res, next){
+    res.end();
+})
+;
 
 //app.use('/static', express.static('public'));
 app.use(express.static('public'));
+
 
 app.get('/', (req, res) => {
   // instantiate the React component
@@ -47,5 +57,6 @@ router.get('/', function(req, res){
 
 const server = app.listen(3000, () => {
   let port = server.address().port;
-  console.log(`Server running at http://localhost:${port}`);
+  let date = Date();
+console.log(`Server running at http://localhost:${port} ${date}`);
 });

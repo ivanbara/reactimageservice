@@ -14,9 +14,9 @@ var _AwesomeComponent = require('./AwesomeComponent');
 
 var _AwesomeComponent2 = _interopRequireDefault(_AwesomeComponent);
 
-var _SearchExampleComponent = require('./SearchExampleComponent');
+var _AjaxList = require('./AjaxList');
 
-var _SearchExampleComponent2 = _interopRequireDefault(_SearchExampleComponent);
+var _AjaxList2 = _interopRequireDefault(_AjaxList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,16 +34,8 @@ var ReactApp = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReactApp).call(this, props));
 
-    var placeholder = {
-      try: 'removing some whitespace',
-      or: 'add valid JSON',
-      then: ['then', 'click', 'format'],
-      hi: 'mom!!!'
-    };
-
     _this.state = {
-      value: JSON.stringify(placeholder, null, 4),
-      txtClass: styles.textArea
+      value: 'set'
     };
     return _this;
   }
@@ -63,6 +55,7 @@ var ReactApp = function (_React$Component) {
             'Isomorphimg'
           )
         ),
+        _react2.default.createElement(_AjaxList2.default, { apiKey: '642176ece1e7445e99244cec26f4de1f' }),
         _react2.default.createElement(_AwesomeComponent2.default, { img: './img/mammoth_happy.png', adj: 'Like' }),
         _react2.default.createElement(
           'div',
