@@ -14,9 +14,9 @@ var _AwesomeComponent = require('./AwesomeComponent');
 
 var _AwesomeComponent2 = _interopRequireDefault(_AwesomeComponent);
 
-var _AjaxList = require('./AjaxList');
+var _AjaxApi = require('./AjaxApi');
 
-var _AjaxList2 = _interopRequireDefault(_AjaxList);
+var _AjaxApi2 = _interopRequireDefault(_AjaxApi);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,6 +39,8 @@ var ReactApp = function (_React$Component) {
     };
     return _this;
   }
+  // <AjaxList apiKey='642176ece1e7445e99244cec26f4de1f' />
+
 
   _createClass(ReactApp, [{
     key: 'render',
@@ -55,7 +57,7 @@ var ReactApp = function (_React$Component) {
             'Isomorphimg'
           )
         ),
-        _react2.default.createElement(_AjaxList2.default, { apiKey: '642176ece1e7445e99244cec26f4de1f' }),
+        _react2.default.createElement(_AjaxApi2.default, null),
         _react2.default.createElement(_AwesomeComponent2.default, { img: './img/mammoth_happy.png', adj: 'Like' }),
         _react2.default.createElement(
           'div',

@@ -1,6 +1,6 @@
 import React from 'react';
 import AwesomeComponent from './AwesomeComponent';
-import AjaxList from './AjaxList';
+import AjaxApi from './AjaxApi';
 
 
 class ReactApp extends React.Component {
@@ -10,14 +10,14 @@ class ReactApp extends React.Component {
       value: 'set'
     };
   }
-
+  // <AjaxList apiKey='642176ece1e7445e99244cec26f4de1f' />
   render() {
     return (
       <div id='app' style={styles.container}>
         <div className='navbar'>
           <h1 style={styles.header}>Isomorphimg</h1>
         </div>
-        <AjaxList apiKey='642176ece1e7445e99244cec26f4de1f' />
+        <AjaxApi />
         <AwesomeComponent img='./img/mammoth_happy.png' adj='Like'/>
         <div className='imageContainer'>
           images
