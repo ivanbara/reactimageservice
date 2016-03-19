@@ -61,7 +61,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// "fetch" global
-	__webpack_require__(162);
+	__webpack_require__(163);
 
 	_reactDom2.default.render(_react2.default.createElement(_ReactApp2.default, null), document.getElementById('app'));
 
@@ -19686,9 +19686,13 @@
 
 	var _AwesomeComponent2 = _interopRequireDefault(_AwesomeComponent);
 
-	var _AjaxApi = __webpack_require__(161);
+	var _AjaxList = __webpack_require__(161);
 
-	var _AjaxApi2 = _interopRequireDefault(_AjaxApi);
+	var _AjaxList2 = _interopRequireDefault(_AjaxList);
+
+	var _DropZonePlace = __webpack_require__(162);
+
+	var _DropZonePlace2 = _interopRequireDefault(_DropZonePlace);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19729,7 +19733,12 @@
 	            'Isomorphimg'
 	          )
 	        ),
-	        _react2.default.createElement(_AjaxApi2.default, null),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'uploadzone' },
+	          _react2.default.createElement(_DropZonePlace2.default, null)
+	        ),
+	        _react2.default.createElement(_AjaxList2.default, { url: '/api/uploads/all' }),
 	        _react2.default.createElement(_AwesomeComponent2.default, { img: './img/mammoth_happy.png', adj: 'Like' }),
 	        _react2.default.createElement(
 	          'div',
@@ -19857,24 +19866,24 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var AjaxApi = function (_React$Component) {
-		_inherits(AjaxApi, _React$Component);
+	var AjaxList = function (_React$Component) {
+		_inherits(AjaxList, _React$Component);
 
-		function AjaxApi(props) {
-			_classCallCheck(this, AjaxApi);
+		function AjaxList(props) {
+			_classCallCheck(this, AjaxList);
 
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AjaxApi).call(this, props));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AjaxList).call(this, props));
 
-			_this.state = { apidata: {} };
+			_this.state = { pictures: [] };
 			return _this;
 		}
 
-		_createClass(AjaxApi, [{
+		_createClass(AjaxList, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
 				var _this2 = this;
 
-				var url = 'https://api.github.com/users/caspyin';
+				var url = this.props.url;
 				var myInit = { method: 'Get' };
 				fetch(url, myInit).then(function (response) {
 					if (response.status >= 200 && response.status < 300) {
@@ -19883,23 +19892,25 @@
 				}).then(function (response) {
 					return response.json();
 				}).then(function (data) {
-					console.log(data);
-					_this2.state.apidata = data;
-					_this2.setState(_this2.state);
+					_this2.setState({
+						pictures: data.images
+					});
 				});
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var api = _react2.default.createElement(
-					'div',
-					{ className: 'picture' },
-					'login:',
-					this.state.apidata.login,
-					', name:',
-					this.state.apidata.name,
-					' '
-				);
+				var pictures = this.state.pictures.map(function (p) {
+					return _react2.default.createElement('img', { src: p.imageURL, key: p.imageName, className: 'picture', title: p.imageName });
+				});
+
+				if (!pictures.length) {
+					pictures = _react2.default.createElement(
+						'p',
+						{ className: 'pictures' },
+						'Loading images..'
+					);
+				}
 
 				return _react2.default.createElement(
 					'div',
@@ -19907,26 +19918,168 @@
 					_react2.default.createElement(
 						'h1',
 						null,
-						'Github data'
+						'Server pics'
 					),
 					_react2.default.createElement(
 						'div',
 						{ className: 'pictures' },
 						' ',
-						api,
+						pictures,
 						' '
 					)
 				);
 			}
 		}]);
 
-		return AjaxApi;
+		return AjaxList;
 	}(_react2.default.Component);
 
-	exports.default = AjaxApi;
+	exports.default = AjaxList;
 
 /***/ },
 /* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var DropZonePlace = function (_React$Component) {
+	  _inherits(DropZonePlace, _React$Component);
+
+	  function DropZonePlace(props) {
+	    _classCallCheck(this, DropZonePlace);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DropZonePlace).call(this, props));
+
+	    _this.state = {
+	      file: '',
+	      imagePreviewUrl: '',
+	      status: 'Click to upload images...'
+	    };
+	    _this.handleImageChange = _this.handleImageChange.bind(_this);
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+
+	    return _this;
+	  }
+
+	  _createClass(DropZonePlace, [{
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      var _this2 = this;
+
+	      e.preventDefault();
+	      if (!this.state.file) {
+	        return;
+	      }
+	      var data = new FormData();
+	      data.append('recfile', this.state.file);
+	      data.append('user', 'hubot');
+
+	      fetch('http://localhost:3000/api/uploads/upload/', {
+	        method: 'post',
+	        body: data
+	      }).then(function (res) {
+	        _this2.setState({
+	          status: 'Uploading...'
+	        });
+	        return res.json();
+	      }).then(function (val) {
+	        if (val.message == 'ok') {
+	          _this2.setState({
+	            status: 'Uploaded!'
+	          });
+	          console.log(val);
+	        };
+	      });
+
+	      this.setState({
+	        file: '',
+	        imagePreviewUrl: ''
+	      });
+	    }
+	  }, {
+	    key: 'handleImageChange',
+	    value: function handleImageChange(e) {
+	      var _this3 = this;
+
+	      e.preventDefault();
+
+	      var reader = new FileReader();
+	      var file = e.target.files[0];
+
+	      reader.onloadend = function () {
+	        _this3.setState({
+	          file: file,
+	          imagePreviewUrl: reader.result
+	        });
+	      };
+
+	      reader.readAsDataURL(file);
+	    }
+
+	    //<button type="submit" onClick={this.handleSubmit} ></button>
+
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var imagePreviewUrl = this.state.imagePreviewUrl;
+
+	      var $imagePreview = null;
+	      var previewText = _react2.default.createElement(
+	        'p',
+	        null,
+	        this.state.status
+	      );
+	      if (imagePreviewUrl) {
+	        $imagePreview = _react2.default.createElement('img', { src: imagePreviewUrl, className: 'dropPreview' });
+	        previewText = null;
+	      }
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'dropZone', id: 'upload-file-container' },
+	          $imagePreview,
+	          ' ',
+	          previewText,
+	          _react2.default.createElement('input', { type: 'file', name: 'file-upload', onChange: this.handleImageChange })
+	        ),
+	        _react2.default.createElement('form', { onSubmit: this.handleSubmit, encType: 'multipart/form-data', className: 'uploadForm' }),
+	        _react2.default.createElement(
+	          'a',
+	          { href: '', onClick: this.handleSubmit, className: 'icon-button pinterest' },
+	          _react2.default.createElement('i', { className: 'fa fa-cloud-upload' }),
+	          _react2.default.createElement('span', null)
+	        )
+	      );
+	    }
+	  }]);
+
+	  return DropZonePlace;
+	}(_react2.default.Component);
+
+	exports.default = DropZonePlace;
+
+/***/ },
+/* 163 */
 /***/ function(module, exports) {
 
 	(function(self) {

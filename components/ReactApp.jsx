@@ -1,6 +1,8 @@
 import React from 'react';
 import AwesomeComponent from './AwesomeComponent';
-import AjaxApi from './AjaxApi';
+import AjaxList from './AjaxList';
+import DropZonePlace from './DropZonePlace';
+
 
 
 class ReactApp extends React.Component {
@@ -17,7 +19,10 @@ class ReactApp extends React.Component {
         <div className='navbar'>
           <h1 style={styles.header}>Isomorphimg</h1>
         </div>
-        <AjaxApi />
+        <div className='uploadzone'>
+          <DropZonePlace />       
+        </div>
+        <AjaxList url='/api/uploads/all' />
         <AwesomeComponent img='./img/mammoth_happy.png' adj='Like'/>
         <div className='imageContainer'>
           images

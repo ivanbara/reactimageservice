@@ -1,5 +1,7 @@
 body{
 	background-color: white;
+	padding:20px;
+  text-align: center;
 }
 .mammothdiv{
 	float: left;
@@ -22,10 +24,6 @@ body{
     text-align: center;
 }
 
-body{
-    padding:20px;
-    text-align: center;
-}
 
 h1{
     font-size: 18px;
@@ -35,35 +33,151 @@ h1{
 
 .picture{
     display: inline-block;
-    margin: 5px;
-    cursor:pointer;
+    padding: 5px;
+    margin: 2px;
+    cursor: pointer;
     position: relative;
-    width: 200px;
-    height: 200px;
+    background-color: #fff3ea;
+    border: solid 5px #ccae94;
+    border-radius: 10%;
 }
 
-div.picture.favorite:after{
-    content: '❤';
-    position: absolute;
-    font-size: 80px;
-    line-height: 200px;
-    color: #FF224D;
-    width: 100%;
-    text-align: center;
-    left: 0;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-    font-weight: bold;
+.pictures{
+	display: flex;
+	flex-wrap: wrap;
+  white-space: nowrap;
+  overflow-y: auto;
+  margin: 20px;
+  width: 800px;
+
 }
 
-.pictures, .favorites{
-    white-space: nowrap;
-    overflow-y: auto;
-    margin-bottom: 20px;
-    height: 230px;
-    background-color: #F3F3F3;
-}
-
-.pictures p, .favorites p {
+.pictures p{
     padding-top: 100px;
     font-size: 13px;
+}
+
+.dropZone{
+	display: inline-block;
+	border: dashed 5px black;
+	width: 200px;
+	height: 200px;
+	margin: 10px;
+	border-radius: 15%;
+}
+
+.uploadForm{
+	align:center;
+}
+
+.dropPreview{
+	width:100%;
+ 	height:100%;
+}
+
+
+#upload-file-container {
+	position: relative;
+}
+
+#upload-file-container input {
+   filter: alpha(opacity=0);
+   opacity: 0;
+   width: 100%;
+   height: 100%;
+   z-index: 10;
+   position: absolute;
+   top: 0;
+   left:0;
+}
+
+.container{
+	display: flex;
+	flex-wrap: wrap;
+	
+}
+
+
+/* Wrapper */
+.icon-button {
+	background-color: #4099ff;
+	border-radius: 4rem;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 2.0rem;
+	height: 4rem;
+	line-height: 4rem;
+	margin: 0 5px;
+	position: relative;
+	text-align: center;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+	width: 4rem;
+}
+
+/* Circle */
+.icon-button span {
+	border-radius: 0;
+	display: block;
+	height: 0;
+	left: 50%;
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	-webkit-transition: all 0.3s;
+	   -moz-transition: all 0.3s;
+	     -o-transition: all 0.3s;
+	        transition: all 0.3s;
+	width: 0;
+}
+.icon-button:hover span {
+	width: 4rem;
+	height: 4rem;
+	border-radius: 4rem;
+	margin: -2rem;
+}
+
+.pinterest span{
+	background-color: #3B5998;
+}
+
+/* Icons */
+.icon-button i {
+	background: none;
+	color: white;
+	height: 4rem;
+	left: 0;
+	line-height: 4rem;
+	position: absolute;
+	top: 0;
+	-webkit-transition: all 0.3s;
+	   -moz-transition: all 0.3s;
+	     -o-transition: all 0.3s;
+	        transition: all 0.3s;
+	width: 4rem;
+	z-index: 10;
+}
+
+.icon-button .icon-pinterest {
+  color: #bd081c;
+}
+
+.icon-button:hover .icon-pinterest 
+{
+  color: white;
+}
+
+.icon-button:active span {
+	width: 4rem;
+	height: 4rem;
+	border-radius: 4rem;
+	margin: -2rem;
+	background-color: green;
+}
+
+.icon-button:active .icon-pinterest 
+{
+  color: white;
 }

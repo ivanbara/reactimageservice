@@ -9,8 +9,7 @@ class AjaxList extends React.Component {
 
 	
 	componentDidMount(){
-		var url = 'https://api.instagram.com/v1/media/popular?client_id=' + this.props.apiKey + '&callback=?';
-		url = '/bears';
+		var url = this.props.url;
 		var myInit = {method: 'Get'}
 		fetch(url, myInit).then((response)=>{
 			if (response.status >= 200 && response.status < 300) {
@@ -19,23 +18,25 @@ class AjaxList extends React.Component {
 		}).then((response) => {
 			return response.json();
 		}).then((data) => {
-			this.state.pictures = data.data;
-			this.setState(this.state);
+			this.setState({
+        	pictures: data.images
+      });
+
 		});
 	}
 
 	render(){
       var pictures = this.state.pictures.map((p) => {
-          return <img src= {p.src} key={p.id} className='picture'/>;
+          return <img src={p.imageURL} key={p.imageName} className='picture' title={p.imageName}/>;
       });
 
       if(!pictures.length){
-          pictures = <p>Loading images..</p>;
+          pictures = <p className="pictures">Loading images..</p>;
       }
 
       return (
           <div>
-              <h1>Popular Instagram pics</h1>
+              <h1>Server pics</h1>
               <div className="pictures"> {pictures} </div>
           </div>
       );

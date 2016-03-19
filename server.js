@@ -4,14 +4,30 @@ const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const ReactApp = require("./es5-lib/ReactApp").default;
 
-var cors = require('cors');
+const bodyParser = require('body-parser');
+const multer = require('multer');
+const cors = require('cors');
 const express = require('express');
+const uploads = require('./routes/uploads');
 const app = express();
-
 app.use(cors());
+
+
+
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
+app.use(multer({dest:'./uploads/'}).array('recfile'));
+
+
 
 //app.use('/static', express.static('public'));
 app.use(express.static('public'));
+
+app.use('/api/uploads',  uploads);
+
 
 
 app.get('/', (req, res) => {
@@ -29,6 +45,7 @@ app.get('/', (req, res) => {
      <head>
      <title>Isomorphimg</title>
      <link rel="stylesheet" type="text/css" href="css/styles.css">
+		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">	
      </head>
      <body>
      <div id="app">${reactHtml}</div>
@@ -40,17 +57,7 @@ app.get('/', (req, res) => {
   res.send(html);
 });
 
-app.get('/bears', function(req, res){
-	res.json({data: [{"id":"id g",
-		"url": "https:\/\/scontent.cdninstagram.com\/t51.2885-19\/11007937_381359188712407_493937690_a.jpg",
-		"src": "https:\/\/scontent.cdninstagram.com\/t51.2885-15\/s320x320\/e35\/12819137_765877360181023_2038294020_n.jpg?ig_cache_key=MTIwODA3ODQxMDU5ODEyODE3NQ%3D%3D.2",
-		"title": "pic"},
-		{"id":"id d",
-		"url": "https:\/\/scontent.cdninstagram.com\/t51.2885-19\/11007937_381359188712407_493937690_a.jpg",
-		"src": "https:\/\/scontent.cdninstagram.com\/t51.2885-19\/11007937_381359188712407_493937690_a.jpg",
-		"title": "pic"}]
-		});
-});
+
 
 const server = app.listen(3000, () => {
   let port = server.address().port;

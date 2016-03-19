@@ -35,8 +35,7 @@ var AjaxList = function (_React$Component) {
 		value: function componentDidMount() {
 			var _this2 = this;
 
-			var url = 'https://api.instagram.com/v1/media/popular?client_id=' + this.props.apiKey + '&callback=?';
-			url = '/bears';
+			var url = this.props.url;
 			var myInit = { method: 'Get' };
 			fetch(url, myInit).then(function (response) {
 				if (response.status >= 200 && response.status < 300) {
@@ -45,7 +44,7 @@ var AjaxList = function (_React$Component) {
 			}).then(function (response) {
 				return response.json();
 			}).then(function (data) {
-				_this2.state.pictures = data.data;
+				_this2.state.pictures = data.images;
 				_this2.setState(_this2.state);
 			});
 		}
@@ -53,13 +52,13 @@ var AjaxList = function (_React$Component) {
 		key: 'render',
 		value: function render() {
 			var pictures = this.state.pictures.map(function (p) {
-				return _react2.default.createElement('img', { src: p.src, key: p.id, className: 'picture' });
+				return _react2.default.createElement('img', { src: p.imageURL, key: p.imageName, className: 'picture', title: p.imageName });
 			});
 
 			if (!pictures.length) {
 				pictures = _react2.default.createElement(
 					'p',
-					null,
+					{ className: 'pictures' },
 					'Loading images..'
 				);
 			}
@@ -70,7 +69,7 @@ var AjaxList = function (_React$Component) {
 				_react2.default.createElement(
 					'h1',
 					null,
-					'Popular Instagram pics'
+					'Server pics'
 				),
 				_react2.default.createElement(
 					'div',

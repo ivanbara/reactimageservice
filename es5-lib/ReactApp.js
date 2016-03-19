@@ -14,9 +14,13 @@ var _AwesomeComponent = require('./AwesomeComponent');
 
 var _AwesomeComponent2 = _interopRequireDefault(_AwesomeComponent);
 
-var _AjaxApi = require('./AjaxApi');
+var _AjaxList = require('./AjaxList');
 
-var _AjaxApi2 = _interopRequireDefault(_AjaxApi);
+var _AjaxList2 = _interopRequireDefault(_AjaxList);
+
+var _DropZonePlace = require('./DropZonePlace');
+
+var _DropZonePlace2 = _interopRequireDefault(_DropZonePlace);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -57,7 +61,12 @@ var ReactApp = function (_React$Component) {
             'Isomorphimg'
           )
         ),
-        _react2.default.createElement(_AjaxApi2.default, null),
+        _react2.default.createElement(
+          'div',
+          { className: 'uploadzone' },
+          _react2.default.createElement(_DropZonePlace2.default, null)
+        ),
+        _react2.default.createElement(_AjaxList2.default, { url: '/api/uploads/all' }),
         _react2.default.createElement(_AwesomeComponent2.default, { img: './img/mammoth_happy.png', adj: 'Like' }),
         _react2.default.createElement(
           'div',
