@@ -19849,7 +19849,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -19867,71 +19867,75 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var AjaxList = function (_React$Component) {
-		_inherits(AjaxList, _React$Component);
+	  _inherits(AjaxList, _React$Component);
 
-		function AjaxList(props) {
-			_classCallCheck(this, AjaxList);
+	  function AjaxList(props) {
+	    _classCallCheck(this, AjaxList);
 
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AjaxList).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AjaxList).call(this, props));
 
-			_this.state = { pictures: [] };
-			return _this;
-		}
+	    _this.state = { pictures: [] };
+	    return _this;
+	  }
 
-		_createClass(AjaxList, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				var _this2 = this;
+	  _createClass(AjaxList, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
 
-				var url = this.props.url;
-				var myInit = { method: 'Get' };
-				fetch(url, myInit).then(function (response) {
-					if (response.status >= 200 && response.status < 300) {
-						return response;
-					}
-				}).then(function (response) {
-					return response.json();
-				}).then(function (data) {
-					_this2.setState({
-						pictures: data.images
-					});
-				});
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				var pictures = this.state.pictures.map(function (p) {
-					return _react2.default.createElement('img', { src: p.imageURL, key: p.imageName, className: 'picture', title: p.imageName });
-				});
+	      var url = this.props.url;
+	      var myInit = { method: 'Get' };
+	      fetch(url, myInit).then(function (response) {
+	        if (response.status >= 200 && response.status < 300) {
+	          return response;
+	        }
+	      }).then(function (response) {
+	        return response.json();
+	      }).then(function (data) {
+	        _this2.setState({
+	          pictures: data.images
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var pictures = this.state.pictures.map(function (p) {
+	        return _react2.default.createElement(
+	          'a',
+	          { href: 'http://localhost:3000/api/uploads/images/' + p.imageName.split(".")[0], key: p.imageName },
+	          _react2.default.createElement('img', { src: p.imageURL, className: 'picture', title: p.imageName })
+	        );
+	      });
 
-				if (!pictures.length) {
-					pictures = _react2.default.createElement(
-						'p',
-						{ className: 'pictures' },
-						'Loading images..'
-					);
-				}
+	      if (!pictures.length) {
+	        pictures = _react2.default.createElement(
+	          'p',
+	          { className: 'pictures' },
+	          'Loading images..'
+	        );
+	      }
 
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(
-						'h1',
-						null,
-						'Server pics'
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'pictures' },
-						' ',
-						pictures,
-						' '
-					)
-				);
-			}
-		}]);
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Server pics'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'pictures' },
+	          ' ',
+	          pictures,
+	          ' '
+	        )
+	      );
+	    }
+	  }]);
 
-		return AjaxList;
+	  return AjaxList;
 	}(_react2.default.Component);
 
 	exports.default = AjaxList;
@@ -19960,6 +19964,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var style = {
+	  background: 'red'
+	};
+
 	var DropZonePlace = function (_React$Component) {
 	  _inherits(DropZonePlace, _React$Component);
 
@@ -19969,12 +19977,19 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DropZonePlace).call(this, props));
 
 	    _this.state = {
-	      file: '',
 	      imagePreviewUrl: '',
-	      status: 'Click to upload images...'
+	      status: _react2.default.createElement(
+	        'p',
+	        null,
+	        'Click or drop files here to upload...'
+	      ),
+	      style: {}
 	    };
+	    _this.uploadFile = '';
 	    _this.handleImageChange = _this.handleImageChange.bind(_this);
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    _this.onDragOver = _this.onDragOver.bind(_this);
+	    _this.onDragLeave = _this.onDragLeave.bind(_this);
 
 	    return _this;
 	  }
@@ -19985,32 +20000,39 @@
 	      var _this2 = this;
 
 	      e.preventDefault();
-	      if (!this.state.file) {
+	      if (!this.uploadFile) {
 	        return;
 	      }
 	      var data = new FormData();
-	      data.append('recfile', this.state.file);
-	      data.append('user', 'hubot');
+	      data.append('recfile', this.uploadFile);
+	      data.append('user', 'guestUser');
 
 	      fetch('http://localhost:3000/api/uploads/upload/', {
 	        method: 'post',
 	        body: data
 	      }).then(function (res) {
 	        _this2.setState({
-	          status: 'Uploading...'
+	          status: _react2.default.createElement(
+	            'p',
+	            null,
+	            'Uploading...'
+	          )
 	        });
 	        return res.json();
 	      }).then(function (val) {
 	        if (val.message == 'ok') {
 	          _this2.setState({
-	            status: 'Uploaded!'
+	            status: _react2.default.createElement(
+	              'p',
+	              { id: 'checkMark' },
+	              _react2.default.createElement('i', { className: 'fa fa-check' })
+	            )
 	          });
 	          console.log(val);
 	        };
 	      });
-
+	      this.uploadFile = '';
 	      this.setState({
-	        file: '',
 	        imagePreviewUrl: ''
 	      });
 	    }
@@ -20026,46 +20048,55 @@
 
 	      reader.onloadend = function () {
 	        _this3.setState({
-	          file: file,
-	          imagePreviewUrl: reader.result
+	          imagePreviewUrl: reader.result,
+	          style: { background: '' }
 	        });
+	        _this3.uploadFile = file;
 	      };
 
 	      reader.readAsDataURL(file);
 	    }
-
-	    //<button type="submit" onClick={this.handleSubmit} ></button>
-
+	  }, {
+	    key: 'onDragOver',
+	    value: function onDragOver(e) {
+	      e.preventDefault();
+	      e.stopPropagation();
+	      this.setState({
+	        style: { background: '#c5e0ff', border: 'solid 3px black' }
+	      });
+	    }
+	  }, {
+	    key: 'onDragLeave',
+	    value: function onDragLeave(e) {
+	      e.preventDefault();
+	      this.setState({
+	        style: { background: '', border: 'dashed' }
+	      });
+	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var imagePreviewUrl = this.state.imagePreviewUrl;
 
-	      var $imagePreview = null;
-	      var previewText = _react2.default.createElement(
-	        'p',
-	        null,
-	        this.state.status
-	      );
+	      var imagePreview = this.state.status;
 	      if (imagePreviewUrl) {
-	        $imagePreview = _react2.default.createElement('img', { src: imagePreviewUrl, className: 'dropPreview' });
-	        previewText = null;
+	        imagePreview = _react2.default.createElement('img', { src: imagePreviewUrl, className: 'dropPreview' });
 	      }
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        {
+	          onDragOver: this.onDragOver,
+	          onDragLeave: this.onDragLeave
+	        },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'dropZone', id: 'upload-file-container' },
-	          $imagePreview,
-	          ' ',
-	          previewText,
+	          { className: 'dropZone', id: 'upload-file-container', style: this.state.style },
+	          imagePreview,
 	          _react2.default.createElement('input', { type: 'file', name: 'file-upload', onChange: this.handleImageChange })
 	        ),
-	        _react2.default.createElement('form', { onSubmit: this.handleSubmit, encType: 'multipart/form-data', className: 'uploadForm' }),
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: this.handleSubmit, className: 'icon-button pinterest' },
+	          { href: '', onClick: this.handleSubmit, className: 'icon-button cloudicon' },
 	          _react2.default.createElement('i', { className: 'fa fa-cloud-upload' }),
 	          _react2.default.createElement('span', null)
 	        )
@@ -20075,6 +20106,12 @@
 
 	  return DropZonePlace;
 	}(_react2.default.Component);
+
+	DropZonePlace.propTypes = {
+	  onDrop: _react2.default.PropTypes.func,
+	  onDragOver: _react2.default.PropTypes.func,
+	  onDragLeave: _react2.default.PropTypes.func
+	};
 
 	exports.default = DropZonePlace;
 

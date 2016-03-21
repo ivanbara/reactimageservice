@@ -5,10 +5,10 @@ var fs = require('fs');
 var path = require('path');
 var uid = require('uid-safe');
 
-var imgs = [{imageName: 'MammothNormal', imageURL: '/uploads/mammooth.png'},
-			{imageName: 'MammothBack', imageURL: '/uploads/mammoth_back.png'},
-			{imageName: 'MammothHappy', imageURL: '/uploads/mammoth_happy.png'},
-			{imageName: 'MammothSeated', imageURL: '/uploads/mammoth_seated.png'},
+var imgs = [{imageName: 'mammooth.png', imageURL: '/uploads/mammooth.png', extension: '.png'},
+			{imageName: 'mammoth_back.png', imageURL: '/uploads/mammoth_back.png', extension:'.png'},
+			{imageName: 'mammoth_happy.png', imageURL: '/uploads/mammoth_happy.png', extension:'.png'},
+			{imageName: 'mammoth_seated.png', imageURL: '/uploads/mammoth_seated.png', extension:'.png'},
 		];
 
 router.get('/single/:image_id', (req, res) => {
@@ -23,12 +23,11 @@ router.get('/all', (req, res) => {
 
 
 router.post('/upload',  (req, res) => {
-	console.log('files received');
 
 	var tempPath = req.files[0].path;
 	var str = uid.sync(7);
 	var extension = req.files[0].originalname.split('.').pop();
-	console.log(str);
+	console.log('files received: ' + str);
 	str = str + '.' + extension;
 	var TARGET_PATH = path.resolve(__dirname, '../public/uploads/');
 	var targetPath = path.join(TARGET_PATH, str);
@@ -52,13 +51,30 @@ router.post('/upload',  (req, res) => {
     });
   });
 	var x = '/uploads/' + str;
-	imgs.push({imageName: str, imageURL: x});
+	imgs.push({imageName: str, imageURL: x, extension: '.png'});
 	res.json({ message: 'ok'});
 });
 
-router.post('/upload/:image_id', (req, res) => {
+router.get('/images/:image_id', (req, res) => {
+	console.log(req.originalUrl);
 
-  res.json({ message: 'One Image added', name: req.params.image_id });
+	
+	var imgUrl = req.protocol + '://' + req.get('host') + '/uploads/' + req.params.image_id + '.png'; 
+	const html = `
+    <!DOCTYPE html>
+    <html>
+     <head>
+     <title>Isomorphimg</title>
+		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">	
+     </head>
+     <body>
+     <h1>Image Page</h1>
+     <div id="app"><img src=${imgUrl} /></div>
+     </body>
+    </html>
+  `;
+  // send to the browser
+  res.send(html);
 });
 
 

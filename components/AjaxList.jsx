@@ -21,13 +21,14 @@ class AjaxList extends React.Component {
 			this.setState({
         	pictures: data.images
       });
-
 		});
 	}
 
 	render(){
       var pictures = this.state.pictures.map((p) => {
-          return <img src={p.imageURL} key={p.imageName} className='picture' title={p.imageName}/>;
+          return <a href={'http://localhost:3000/api/uploads/images/' + p.imageName.split(".")[0]} key={p.imageName}>
+          				<img src={p.imageURL} className='picture' title={p.imageName}/>
+          			</a>;
       });
 
       if(!pictures.length){
