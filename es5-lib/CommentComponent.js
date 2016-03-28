@@ -33,7 +33,7 @@ var CommentComponent = function (_React$Component) {
 	_createClass(CommentComponent, [{
 		key: 'render',
 		value: function render() {
-			Return(_react2.default.createElement(
+			return _react2.default.createElement(
 				'div',
 				null,
 				_react2.default.createElement(
@@ -46,7 +46,7 @@ var CommentComponent = function (_React$Component) {
 						this.props.comment
 					)
 				)
-			));
+			);
 		}
 	}]);
 

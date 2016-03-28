@@ -19711,16 +19711,44 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReactApp).call(this, props));
 
 	    _this.state = {
-	      value: 'set'
+	      value: 'set',
+	      images: null
 	    };
 	    return _this;
 	  }
-	  // <AjaxList apiKey='642176ece1e7445e99244cec26f4de1f' />
-
 
 	  _createClass(ReactApp, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.loadImagesAjax();
+	    }
+	  }, {
+	    key: 'loadImagesAjax',
+	    value: function loadImagesAjax() {
+	      var _this2 = this;
+
+	      var url = '/api/uploads/all';
+	      var myInit = { method: 'Get' };
+	      fetch(url, myInit).then(function (response) {
+	        if (response.status >= 200 && response.status < 300) {
+	          return response;
+	        }
+	      }).then(function (response) {
+	        return response.json();
+	      }).then(function (data) {
+	        _this2.setState({
+	          images: data.images
+	        });
+	      });
+	    }
+
+	    // <AjaxList apiKey='642176ece1e7445e99244cec26f4de1f' />
+
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this3 = this;
+
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'app', style: styles.container },
@@ -19736,9 +19764,11 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'uploadzone' },
-	          _react2.default.createElement(_DropZonePlace2.default, null)
+	          _react2.default.createElement(_DropZonePlace2.default, { updateImages: function updateImages(loadImages) {
+	              return _this3.loadImagesAjax();
+	            } })
 	        ),
-	        _react2.default.createElement(_AjaxList2.default, { url: '/api/uploads/all' }),
+	        _react2.default.createElement(_AjaxList2.default, { images: this.state.images }),
 	        _react2.default.createElement(_AwesomeComponent2.default, { img: './img/mammoth_happy.png', adj: 'Like' }),
 	        _react2.default.createElement(
 	          'div',
@@ -19849,7 +19879,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -19867,75 +19897,56 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var AjaxList = function (_React$Component) {
-	  _inherits(AjaxList, _React$Component);
+	    _inherits(AjaxList, _React$Component);
 
-	  function AjaxList(props) {
-	    _classCallCheck(this, AjaxList);
+	    function AjaxList(props) {
+	        _classCallCheck(this, AjaxList);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AjaxList).call(this, props));
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(AjaxList).call(this, props));
+	    }
 
-	    _this.state = { pictures: [] };
-	    return _this;
-	  }
+	    _createClass(AjaxList, [{
+	        key: 'render',
+	        value: function render() {
+	            var pictures = '';
+	            if (this.props.images) {
+	                pictures = this.props.images.map(function (p) {
+	                    return _react2.default.createElement(
+	                        'a',
+	                        { href: 'http://localhost:3000/api/uploads/images/' + p.imageName.split(".")[0], key: p.imageName },
+	                        _react2.default.createElement('img', { src: p.imageURL, className: 'picture', title: p.imageName })
+	                    );
+	                });
+	            }
 
-	  _createClass(AjaxList, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var _this2 = this;
+	            if (!pictures) {
+	                pictures = _react2.default.createElement(
+	                    'p',
+	                    { className: 'pictures' },
+	                    'Loading images..'
+	                );
+	            }
 
-	      var url = this.props.url;
-	      var myInit = { method: 'Get' };
-	      fetch(url, myInit).then(function (response) {
-	        if (response.status >= 200 && response.status < 300) {
-	          return response;
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'h1',
+	                    null,
+	                    'Server pics'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'pictures' },
+	                    ' ',
+	                    pictures,
+	                    ' '
+	                )
+	            );
 	        }
-	      }).then(function (response) {
-	        return response.json();
-	      }).then(function (data) {
-	        _this2.setState({
-	          pictures: data.images
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var pictures = this.state.pictures.map(function (p) {
-	        return _react2.default.createElement(
-	          'a',
-	          { href: 'http://localhost:3000/api/uploads/images/' + p.imageName.split(".")[0], key: p.imageName },
-	          _react2.default.createElement('img', { src: p.imageURL, className: 'picture', title: p.imageName })
-	        );
-	      });
+	    }]);
 
-	      if (!pictures.length) {
-	        pictures = _react2.default.createElement(
-	          'p',
-	          { className: 'pictures' },
-	          'Loading images..'
-	        );
-	      }
-
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Server pics'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'pictures' },
-	          ' ',
-	          pictures,
-	          ' '
-	        )
-	      );
-	    }
-	  }]);
-
-	  return AjaxList;
+	    return AjaxList;
 	}(_react2.default.Component);
 
 	exports.default = AjaxList;
@@ -20028,7 +20039,7 @@
 	              _react2.default.createElement('i', { className: 'fa fa-check' })
 	            )
 	          });
-	          console.log(val);
+	          _this2.props.updateImages();
 	        };
 	      });
 	      this.uploadFile = '';

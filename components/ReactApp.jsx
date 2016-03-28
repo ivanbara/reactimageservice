@@ -9,9 +9,31 @@ class ReactApp extends React.Component {
   constructor(props) {
     super(props); 
     this.state = {
-      value: 'set'
+      value: 'set',
+      images: null
     };
   }
+
+  componentDidMount(){
+    this.loadImagesAjax();
+  }
+
+  loadImagesAjax(){
+    var url = '/api/uploads/all';
+    var myInit = {method: 'Get'}
+    fetch(url, myInit).then((response)=>{
+      if (response.status >= 200 && response.status < 300) {
+        return response;
+      }
+    }).then((response) => {
+      return response.json();
+    }).then((data) => {
+      this.setState({
+          images: data.images
+      });
+    });
+  }
+
   // <AjaxList apiKey='642176ece1e7445e99244cec26f4de1f' />
   render() {
     return (
@@ -20,9 +42,9 @@ class ReactApp extends React.Component {
           <h1 style={styles.header}>Isomorphimg</h1>
         </div>
         <div className='uploadzone'>
-          <DropZonePlace />       
+          <DropZonePlace updateImages={loadImages => this.loadImagesAjax()}/>       
         </div>
-        <AjaxList url='/api/uploads/all' />
+        <AjaxList images={this.state.images} />
         <AwesomeComponent img='./img/mammoth_happy.png' adj='Like'/>
         <div className='imageContainer'>
           images

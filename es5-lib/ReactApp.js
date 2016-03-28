@@ -39,16 +39,44 @@ var ReactApp = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReactApp).call(this, props));
 
     _this.state = {
-      value: 'set'
+      value: 'set',
+      images: null
     };
     return _this;
   }
-  // <AjaxList apiKey='642176ece1e7445e99244cec26f4de1f' />
-
 
   _createClass(ReactApp, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.loadImagesAjax();
+    }
+  }, {
+    key: 'loadImagesAjax',
+    value: function loadImagesAjax() {
+      var _this2 = this;
+
+      var url = '/api/uploads/all';
+      var myInit = { method: 'Get' };
+      fetch(url, myInit).then(function (response) {
+        if (response.status >= 200 && response.status < 300) {
+          return response;
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        _this2.setState({
+          images: data.images
+        });
+      });
+    }
+
+    // <AjaxList apiKey='642176ece1e7445e99244cec26f4de1f' />
+
+  }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       return _react2.default.createElement(
         'div',
         { id: 'app', style: styles.container },
@@ -64,9 +92,11 @@ var ReactApp = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'uploadzone' },
-          _react2.default.createElement(_DropZonePlace2.default, null)
+          _react2.default.createElement(_DropZonePlace2.default, { updateImages: function updateImages(loadImages) {
+              return _this3.loadImagesAjax();
+            } })
         ),
-        _react2.default.createElement(_AjaxList2.default, { url: '/api/uploads/all' }),
+        _react2.default.createElement(_AjaxList2.default, { images: this.state.images }),
         _react2.default.createElement(_AwesomeComponent2.default, { img: './img/mammoth_happy.png', adj: 'Like' }),
         _react2.default.createElement(
           'div',

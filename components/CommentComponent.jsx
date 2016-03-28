@@ -8,7 +8,7 @@ class CommentComponent extends React.Component{
 	}
 
 	render(){
-		Return (
+		return (
           <div>
 						<div className='comment'>
 							<img src='' className='commentAvatar'/>

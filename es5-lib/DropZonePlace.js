@@ -82,7 +82,7 @@ var DropZonePlace = function (_React$Component) {
               _react2.default.createElement('i', { className: 'fa fa-check' })
             )
           });
-          console.log(val);
+          _this2.props.updateImages();
         };
       });
       this.uploadFile = '';

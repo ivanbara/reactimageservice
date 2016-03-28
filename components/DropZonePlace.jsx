@@ -45,7 +45,10 @@ class DropZonePlace extends React.Component{
 						this.setState({
 	        		status: (<p id='checkMark'><i className="fa fa-check"></i></p>)
 	      		});
-						console.log(val);
+            this.props.updateImages();
+            
+						
+            
 					};
 		});
       this.uploadFile = '';
