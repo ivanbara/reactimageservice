@@ -11,7 +11,7 @@ var config = {
 	     test: /.jsx?$/,
 	     loader: 'babel',
 	     exclude: /node_modules/,
-	     //query: {presets: ['react', 'es2015', 'stage-1']}
+	     query: {presets: ['react', 'es2015', 'stage-0']}
 	   },
 	   //{ test: /\.png$/, loader: "url-loader" },
 	   //{ test: /\.jpg$/, loader: "file-loader" },

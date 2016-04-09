@@ -24759,7 +24759,7 @@
 
 	module.exports = _react2.default.createElement(
 		_reactRouter.Route,
-		{ path: '/', handler: _MainPage2.default },
+		{ path: '/', component: _MainPage2.default },
 		_react2.default.createElement(_reactRouter.IndexRoute, { component: _ReactApp2.default }),
 		_react2.default.createElement(_reactRouter.Route, { path: 'images', component: _ImagePage2.default })
 	);
@@ -25166,10 +25166,10 @@
 	var MainPage = function (_React$Component) {
 	    _inherits(MainPage, _React$Component);
 
-	    function MainPage(props) {
+	    function MainPage() {
 	        _classCallCheck(this, MainPage);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(MainPage).call(this, props));
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(MainPage).apply(this, arguments));
 	    }
 
 	    _createClass(MainPage, [{
@@ -25179,9 +25179,9 @@
 	                'div',
 	                null,
 	                _react2.default.createElement(
-	                    'div',
+	                    'h1',
 	                    null,
-	                    'Header'
+	                    'React Router Tutorial'
 	                ),
 	                this.props.children,
 	                _react2.default.createElement(

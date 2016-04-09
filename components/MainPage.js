@@ -1,16 +1,11 @@
 import React from 'react';
 
 class MainPage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
+  
     render() {
         return (
         	<div>
-        		<div>
-        			Header
-        		</div>
+        		<h1>React Router Tutorial</h1>
         		{this.props.children}
         		<div>
         			Footer
