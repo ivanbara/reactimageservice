@@ -1,12 +1,9 @@
 import React from 'react';
 
 class AjaxList extends React.Component {
-
 	constructor(props){
 		super(props);
-
 	}
-
 
 	render(){
 			let pictures = '';
@@ -20,7 +17,7 @@ class AjaxList extends React.Component {
       
 
       if(!pictures){
-          pictures = <p className="pictures">Loading images..</p>;
+          pictures = <p className="pictures">Loading images...</p>;
       }
 
       return (

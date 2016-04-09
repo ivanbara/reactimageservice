@@ -2,8 +2,11 @@
 require('whatwg-fetch')
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import ReactApp from './components/ReactApp.jsx';
+import { render } from 'react-dom';
+import { Router, browserHistory } from 'react-router';
+import mainrouter from './routes/mainrouter';
 
+const app = document.getElementById('app');
 
-ReactDOM.render(<ReactApp/>, document.getElementById('app'));
+render(<Router routes={mainrouter} history={browserHistory}/>, app);
+

@@ -1,7 +1,6 @@
 import React from 'react';
 
 class CommentInputComponent extends React.Component{
-
 	constructor(props){
 		super(props);
 		this.state = {inputField: ''}

@@ -1,8 +1,6 @@
 import React from 'react';
-import AwesomeComponent from './AwesomeComponent';
 import AjaxList from './AjaxList';
 import DropZonePlace from './DropZonePlace';
-
 
 
 class ReactApp extends React.Component {
@@ -34,7 +32,7 @@ class ReactApp extends React.Component {
     });
   }
 
-  // <AjaxList apiKey='642176ece1e7445e99244cec26f4de1f' />
+
   render() {
     return (
       <div id='app' style={styles.container}>
@@ -45,10 +43,6 @@ class ReactApp extends React.Component {
           <DropZonePlace updateImages={loadImages => this.loadImagesAjax()}/>       
         </div>
         <AjaxList images={this.state.images} />
-        <AwesomeComponent img='./img/mammoth_happy.png' adj='Like'/>
-        <div className='imageContainer'>
-          images
-        </div>
       </div>
     );
   }

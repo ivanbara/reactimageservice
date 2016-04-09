@@ -46,9 +46,6 @@ class DropZonePlace extends React.Component{
 	        		status: (<p id='checkMark'><i className="fa fa-check"></i></p>)
 	      		});
             this.props.updateImages();
-            
-						
-            
 					};
 		});
       this.uploadFile = '';
@@ -89,7 +86,6 @@ class DropZonePlace extends React.Component{
         style: {background: '', border: 'dashed'}
     });
   }
-
 
         		
 	render(){

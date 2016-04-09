@@ -10,10 +10,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _AwesomeComponent = require('./AwesomeComponent');
-
-var _AwesomeComponent2 = _interopRequireDefault(_AwesomeComponent);
-
 var _AjaxList = require('./AjaxList');
 
 var _AjaxList2 = _interopRequireDefault(_AjaxList);
@@ -69,9 +65,6 @@ var ReactApp = function (_React$Component) {
         });
       });
     }
-
-    // <AjaxList apiKey='642176ece1e7445e99244cec26f4de1f' />
-
   }, {
     key: 'render',
     value: function render() {
@@ -96,13 +89,7 @@ var ReactApp = function (_React$Component) {
               return _this3.loadImagesAjax();
             } })
         ),
-        _react2.default.createElement(_AjaxList2.default, { images: this.state.images }),
-        _react2.default.createElement(_AwesomeComponent2.default, { img: './img/mammoth_happy.png', adj: 'Like' }),
-        _react2.default.createElement(
-          'div',
-          { className: 'imageContainer' },
-          'images'
-        )
+        _react2.default.createElement(_AjaxList2.default, { images: this.state.images })
       );
     }
   }]);

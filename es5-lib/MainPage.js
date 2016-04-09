@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -18,58 +18,37 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MenuComponent = function (_React$Component) {
-	_inherits(MenuComponent, _React$Component);
+var MainPage = function (_React$Component) {
+    _inherits(MainPage, _React$Component);
 
-	function MenuComponent(props) {
-		_classCallCheck(this, MenuComponent);
+    function MainPage(props) {
+        _classCallCheck(this, MainPage);
 
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MenuComponent).call(this, props));
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(MainPage).call(this, props));
+    }
 
-		_this.state = { focused: 0 };
+    _createClass(MainPage, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    'Header'
+                ),
+                this.props.children,
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    'Footer'
+                )
+            );
+        }
+    }]);
 
-		return _this;
-	}
-
-	_createClass(MenuComponent, [{
-		key: 'onSelect',
-		value: function onSelect(index) {
-			this.setState({ focused: index });
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _this2 = this;
-
-			return _react2.default.createElement(
-				'div',
-				null,
-				_react2.default.createElement(
-					'ul',
-					null,
-					this.props.items.map(function (m, index) {
-						var style = '';
-						if (_this2.state.focused == index) {
-							style = 'focused';
-						}
-						return _react2.default.createElement(
-							'li',
-							{ key: index, className: style, onClick: _this2.onSelect.bind(_this2, index) },
-							m
-						);
-					})
-				),
-				_react2.default.createElement(
-					'p',
-					null,
-					'Selected: ',
-					this.props.items[this.state.focused]
-				)
-			);
-		}
-	}]);
-
-	return MenuComponent;
+    return MainPage;
 }(_react2.default.Component);
 
-exports.default = MenuComponent;
+exports.default = MainPage;

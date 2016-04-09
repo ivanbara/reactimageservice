@@ -45,7 +45,7 @@ var AjaxList = function (_React$Component) {
                 pictures = _react2.default.createElement(
                     'p',
                     { className: 'pictures' },
-                    'Loading images..'
+                    'Loading images...'
                 );
             }
 
