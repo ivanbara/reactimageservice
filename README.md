@@ -1,10 +1,11 @@
 # reactimageservice
-Image upload service with React. Implemented with ES6 and server side html rendering.
+Image upload service with Node and React. Implemented with ES6 and server side rendering.
 
 Major packages used:
 node
 express
 React
+React Router
 webpack
 gulp
 babel
