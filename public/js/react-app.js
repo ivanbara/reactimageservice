@@ -25330,7 +25330,6 @@
 	        value: function handleCommentSubmit(comment) {
 	            var _this3 = this;
 
-	            console.log(comment);
 	            var url = '/api/uploads/comments/' + this.props.image;
 	            var data = new FormData();
 	            data.append('comments', JSON.stringify(comment));
@@ -25338,10 +25337,8 @@
 	                method: 'post',
 	                body: data
 	            }).then(function (res) {
-	                console.log('reqt sent');
 	                return res.json();
 	            }).then(function (val) {
-	                console.log('request sent');
 	                if (val.message == 'ok') {
 	                    _this3.loadCommentsAjax();
 	                };
@@ -25489,22 +25486,13 @@
 	    _createClass(CommentList, [{
 	        key: 'render',
 	        value: function render() {
-	            var commentNodes = '';
-	            if (!this.props.data) {
-	                commentNodes = this.props.data.map(function (comment) {
-	                    return _react2.default.createElement(
-	                        _Comment2.default,
-	                        { author: comment.author, key: comment.id },
-	                        comment.text
-	                    );
-	                });
-	            } else {
-	                commentNodes = _react2.default.createElement(
-	                    'p',
-	                    null,
-	                    'No Comments yet. Get First Post!'
+	            var commentNodes = this.props.data.map(function (comment) {
+	                return _react2.default.createElement(
+	                    _Comment2.default,
+	                    { author: comment.author, key: comment.id },
+	                    comment.text
 	                );
-	            };
+	            });
 
 	            return _react2.default.createElement(
 	                'div',

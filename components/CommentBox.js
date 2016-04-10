@@ -28,18 +28,15 @@ class CommentBox extends React.Component {
 
 
     handleCommentSubmit(comment){
-        console.log(comment);
         let url = '/api/uploads/comments/' + this.props.image;
         var data = new FormData();
         data.append('comments', JSON.stringify(comment));
         fetch(url, {
           method: 'post',
           body: data
-            }).then((res) => {
-                console.log('reqt sent');   
+            }).then((res) => { 
                 return res.json();
             }).then((val) =>{
-                console.log('request sent');
                 if(val.message == 'ok'){
                     this.loadCommentsAjax();
                 };

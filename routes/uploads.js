@@ -35,9 +35,18 @@ router.get('/comments/:imageName', (req, res) => {
 router.post('/comments/:imageName', (req, res) => {
 	let jsonobj = JSON.parse(req.body.comments);
 	let imageName = req.params.imageName;
-	jsonobj.id = Object.keys(comments[imageName].comments).length + 1;
-	comments[imageName].comments.push(jsonobj);
-  res.json({ message: 'ok'});
+	if (imageName in comments) {
+		jsonobj.id = Object.keys(comments[imageName].comments).length + 1;
+		comments[imageName].comments.push(jsonobj);	
+	} else{
+		
+		jsonobj.id = 1;
+		comments[imageName] = {comments: [jsonobj]};
+		console.log(comments[imageName]);
+		console.log(comments);
+	}
+
+	res.json({ message: 'ok'});
 });
 
 

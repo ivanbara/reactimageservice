@@ -8,17 +8,13 @@ class CommentList extends React.Component {
 
     
     render() {
-    		let commentNodes = '';
-    		if (!this.props.data){
-    		commentNodes = this.props.data.map(comment => {
+    		let commentNodes = this.props.data.map(comment => {
 		      return (
 		        <Comment author={comment.author} key={comment.id}>
 		          {comment.text}
 		        </Comment>
 		      );
-		    });
-    		} else 
-		    	{commentNodes = <p>No Comments yet. Get First Post!</p>};
+		     });
 		    
         return (
         	<div>Comments:
