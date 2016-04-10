@@ -42,8 +42,6 @@ router.post('/comments/:imageName', (req, res) => {
 		
 		jsonobj.id = 1;
 		comments[imageName] = {comments: [jsonobj]};
-		console.log(comments[imageName]);
-		console.log(comments);
 	}
 
 	res.json({ message: 'ok'});
