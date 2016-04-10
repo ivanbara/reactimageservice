@@ -36,9 +36,6 @@ class ReactApp extends React.Component {
   render() {
     return (
       <div id='app' style={styles.container}>
-        <div className='navbar'>
-          <h1 style={styles.header}>Isomorphimg</h1>
-        </div>
         <div className='uploadzone'>
           <DropZonePlace updateImages={loadImages => this.loadImagesAjax()}/>       
         </div>

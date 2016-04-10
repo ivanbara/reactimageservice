@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 class AjaxList extends React.Component {
 	constructor(props){
@@ -9,9 +10,9 @@ class AjaxList extends React.Component {
 			let pictures = '';
 			if (this.props.images) {
 				pictures = this.props.images.map((p) => {
-          return <a href={'http://localhost:3000/api/uploads/images/' + p.imageName.split(".")[0]} key={p.imageName}>
+          return <Link to={'images/' + p.imageName} key={p.imageName}> 
           				<img src={p.imageURL} className='picture' title={p.imageName}/>
-          			</a>;
+          			</Link>;
       	});	
 			}
       
@@ -22,7 +23,7 @@ class AjaxList extends React.Component {
 
       return (
           <div>
-              <h1>Server pics</h1>
+              <h1>Image Gallery</h1>
               <div className="pictures"> {pictures} </div>
           </div>
       );

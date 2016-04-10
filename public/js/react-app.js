@@ -24761,7 +24761,7 @@
 		_reactRouter.Route,
 		{ path: '/', component: _MainPage2.default },
 		_react2.default.createElement(_reactRouter.IndexRoute, { component: _ReactApp2.default }),
-		_react2.default.createElement(_reactRouter.Route, { path: 'images', component: _ImagePage2.default })
+		_react2.default.createElement(_reactRouter.Route, { path: 'images/:image', name: 'images', component: _ImagePage2.default })
 	);
 
 /***/ },
@@ -24845,15 +24845,6 @@
 	        { id: 'app', style: styles.container },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'navbar' },
-	          _react2.default.createElement(
-	            'h1',
-	            { style: styles.header },
-	            'Isomorphimg'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
 	          { className: 'uploadzone' },
 	          _react2.default.createElement(_DropZonePlace2.default, { updateImages: function updateImages(loadImages) {
 	              return _this3.loadImagesAjax();
@@ -24901,6 +24892,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(159);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -24925,8 +24918,8 @@
 	            if (this.props.images) {
 	                pictures = this.props.images.map(function (p) {
 	                    return _react2.default.createElement(
-	                        'a',
-	                        { href: 'http://localhost:3000/api/uploads/images/' + p.imageName.split(".")[0], key: p.imageName },
+	                        _reactRouter.Link,
+	                        { to: 'images/' + p.imageName, key: p.imageName },
 	                        _react2.default.createElement('img', { src: p.imageURL, className: 'picture', title: p.imageName })
 	                    );
 	                });
@@ -24946,7 +24939,7 @@
 	                _react2.default.createElement(
 	                    'h1',
 	                    null,
-	                    'Server pics'
+	                    'Image Gallery'
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -25146,7 +25139,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -25164,36 +25157,41 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var MainPage = function (_React$Component) {
-	    _inherits(MainPage, _React$Component);
+	  _inherits(MainPage, _React$Component);
 
-	    function MainPage() {
-	        _classCallCheck(this, MainPage);
+	  function MainPage() {
+	    _classCallCheck(this, MainPage);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(MainPage).apply(this, arguments));
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(MainPage).apply(this, arguments));
+	  }
+
+	  _createClass(MainPage, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Isomorphimg'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'navbar' },
+	          'navbar'
+	        ),
+	        this.props.children,
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          'Footer'
+	        )
+	      );
 	    }
+	  }]);
 
-	    _createClass(MainPage, [{
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    'h1',
-	                    null,
-	                    'React Router Tutorial'
-	                ),
-	                this.props.children,
-	                _react2.default.createElement(
-	                    'div',
-	                    null,
-	                    'Footer'
-	                )
-	            );
-	        }
-	    }]);
-
-	    return MainPage;
+	  return MainPage;
 	}(_react2.default.Component);
 
 	exports.default = MainPage;
@@ -25237,7 +25235,17 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                'ImagePage'
+	                _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    this.props.params.image.split(".")[0]
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    _react2.default.createElement('img', { src: '/uploads/' + this.props.params.image, className: 'picture',
+	                        title: this.props.params.image.split(".")[0] })
+	                )
 	            );
 	        }
 	    }]);

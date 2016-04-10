@@ -24,9 +24,7 @@ app.get('*', (req, res) => {
   match({ routes: routes, location: req.url }, (err, redirect, props) => {
     if (err) {
       res.status(500).send(err.message)
-    } else if (redirect) {
-      //before a route is entered, it can redirect. Here we handle on the server.
-      res.redirect(redirect.pathname + redirect.search)
+    
     } else if (props) {
 
       const appHtml = renderToString(<RouterContext {...props}/>);
@@ -35,12 +33,12 @@ app.get('*', (req, res) => {
         <html>
          <head>
          <title>Isomorphimg</title>
-         <link rel="stylesheet" type="text/css" href="css/styles.css">
+         <link rel="stylesheet" type="text/css" href="/css/styles.css">
          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"> 
          </head>
          <body>
          <div id="app">${appHtml}</div>
-         <script src="js/react-app.js"></script>
+         <script src="/js/react-app.js"></script>
          </body>
         </html>
         `;

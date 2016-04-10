@@ -7,6 +7,7 @@ var webpackConfig = require('./webpack.config');
 
 
 // transpile from ES6 to ES5 for Server
+/*
 gulp.task('babel-server', function() {
   return gulp.src('./components/*.js')
         .pipe(babel({
@@ -15,6 +16,7 @@ gulp.task('babel-server', function() {
         .on('error', gutil.log)
         .pipe(gulp.dest('./es5-lib'));
 });
+*/
 
 // transpile from ES6 to ES5 for client
 gulp.task('babel-client', function () {
@@ -31,8 +33,8 @@ gulp.task('babel-client', function () {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./components/*.js', ['babel-server', 'babel-client']);
+  gulp.watch('./components/*.js', ['babel-client']);
 });
 
-gulp.task('default', ['babel-client', 'babel-server', 'watch']);
+gulp.task('default', ['babel-client', 'watch']);
 

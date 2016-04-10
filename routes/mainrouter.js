@@ -9,7 +9,7 @@ import ImagePage from '../components/ImagePage';
 module.exports = (
 	<Route path='/' component={MainPage}>
 		<IndexRoute component={ReactApp}/>
-		<Route path='images' component={ImagePage}/>
+		<Route path='images/:image' name='images' component={ImagePage}/>
 	</Route>
 );
 
