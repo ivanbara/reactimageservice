@@ -61,7 +61,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// "fetch" global
-	__webpack_require__(222);
+	__webpack_require__(226);
 
 	var app = document.getElementById('app');
 
@@ -24838,17 +24838,13 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
-
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'app', style: styles.container },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'uploadzone' },
-	          _react2.default.createElement(_DropZonePlace2.default, { updateImages: function updateImages(loadImages) {
-	              return _this3.loadImagesAjax();
-	            } })
+	          _react2.default.createElement(_DropZonePlace2.default, { updateImages: this.loadImagesAjax })
 	        ),
 	        _react2.default.createElement(_AjaxList2.default, { images: this.state.images })
 	      );
@@ -25024,7 +25020,7 @@
 	      data.append('recfile', this.uploadFile);
 	      data.append('user', 'guestUser');
 
-	      fetch('http://localhost:3000/api/uploads/upload/', {
+	      fetch('/api/uploads/upload/', {
 	        method: 'post',
 	        body: data
 	      }).then(function (res) {
@@ -25203,6 +25199,183 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
+					value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _CommentBox = __webpack_require__(222);
+
+	var _CommentBox2 = _interopRequireDefault(_CommentBox);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ImagePage = function (_React$Component) {
+					_inherits(ImagePage, _React$Component);
+
+					function ImagePage(props) {
+									_classCallCheck(this, ImagePage);
+
+									return _possibleConstructorReturn(this, Object.getPrototypeOf(ImagePage).call(this, props));
+					}
+
+					_createClass(ImagePage, [{
+									key: 'render',
+									value: function render() {
+													var imageName = this.props.params.image.split(".")[0];
+													return _react2.default.createElement(
+																	'div',
+																	null,
+																	_react2.default.createElement(
+																					'div',
+																					null,
+																					this.props.params.image.split(".")[0]
+																	),
+																	_react2.default.createElement(
+																					'div',
+																					null,
+																					_react2.default.createElement('img', { src: '/uploads/' + this.props.params.image, className: 'picture',
+																									title: imageName })
+																	),
+																	_react2.default.createElement(
+																					'div',
+																					{ id: 'comments' },
+																					_react2.default.createElement(_CommentBox2.default, { image: imageName })
+																	)
+													);
+									}
+					}]);
+
+					return ImagePage;
+	}(_react2.default.Component);
+
+	exports.default = ImagePage;
+
+/***/ },
+/* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _CommentForm = __webpack_require__(223);
+
+	var _CommentForm2 = _interopRequireDefault(_CommentForm);
+
+	var _CommentList = __webpack_require__(224);
+
+	var _CommentList2 = _interopRequireDefault(_CommentList);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CommentBox = function (_React$Component) {
+	    _inherits(CommentBox, _React$Component);
+
+	    function CommentBox(props) {
+	        _classCallCheck(this, CommentBox);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentBox).call(this, props));
+
+	        _this.state = { comments: [] };
+	        _this.handleCommentSubmit = _this.handleCommentSubmit.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(CommentBox, [{
+	        key: 'loadCommentsAjax',
+	        value: function loadCommentsAjax() {
+	            var _this2 = this;
+
+	            var url = '/api/uploads/comments/' + this.props.image;
+	            var myInit = { method: 'Get' };
+	            fetch(url, myInit).then(function (response) {
+	                if (response.status >= 200 && response.status < 300) {
+	                    return response;
+	                }
+	            }).then(function (response) {
+	                return response.json();
+	            }).then(function (data) {
+	                _this2.setState({
+	                    comments: data.comments
+	                });
+	            });
+	        }
+	    }, {
+	        key: 'handleCommentSubmit',
+	        value: function handleCommentSubmit(comment) {
+	            var _this3 = this;
+
+	            console.log(comment);
+	            var url = '/api/uploads/comments/' + this.props.image;
+	            var data = new FormData();
+	            data.append('comments', JSON.stringify(comment));
+	            fetch(url, {
+	                method: 'post',
+	                body: data
+	            }).then(function (res) {
+	                console.log('reqt sent');
+	                return res.json();
+	            }).then(function (val) {
+	                console.log('request sent');
+	                if (val.message == 'ok') {
+	                    _this3.loadCommentsAjax();
+	                };
+	            });
+	        }
+	    }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.loadCommentsAjax();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'commentBox' },
+	                _react2.default.createElement(_CommentList2.default, { data: this.state.comments }),
+	                _react2.default.createElement(_CommentForm2.default, { image: this.props.image, onCommentSubmit: this.handleCommentSubmit })
+	            );
+	        }
+	    }]);
+
+	    return CommentBox;
+	}(_react2.default.Component);
+
+	exports.default = CommentBox;
+
+/***/ },
+/* 223 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
@@ -25220,43 +25393,193 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var ImagePage = function (_React$Component) {
-	    _inherits(ImagePage, _React$Component);
+	var CommentForm = function (_React$Component) {
+	    _inherits(CommentForm, _React$Component);
 
-	    function ImagePage(props) {
-	        _classCallCheck(this, ImagePage);
+	    function CommentForm(props) {
+	        _classCallCheck(this, CommentForm);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(ImagePage).call(this, props));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentForm).call(this, props));
+
+	        _this.state = { author: '', text: '' };
+	        _this.handleAuthorChange = _this.handleAuthorChange.bind(_this);
+	        _this.handleTextChange = _this.handleTextChange.bind(_this);
+	        _this.handleSubmit = _this.handleSubmit.bind(_this);
+
+	        return _this;
 	    }
 
-	    _createClass(ImagePage, [{
+	    _createClass(CommentForm, [{
+	        key: 'handleAuthorChange',
+	        value: function handleAuthorChange(e) {
+	            this.setState({ author: e.target.value });
+	        }
+	    }, {
+	        key: 'handleTextChange',
+	        value: function handleTextChange(e) {
+	            this.setState({ text: e.target.value });
+	        }
+	    }, {
+	        key: 'handleSubmit',
+	        value: function handleSubmit(e) {
+	            e.preventDefault();
+	            var author = this.state.author.trim();
+	            var text = this.state.text.trim();
+	            if (!text || !author) {
+	                return;
+	            }
+	            this.props.onCommentSubmit({ author: author, text: text });
+	            this.setState({ author: '', text: '' });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
+	                'form',
+	                { className: 'commentForm', onSubmit: this.handleSubmit },
+	                _react2.default.createElement('input', { type: 'text', placeholder: 'Your name', value: this.state.author, onChange: this.handleAuthorChange }),
+	                _react2.default.createElement('input', { type: 'text', placeholder: 'Say something...', value: this.state.text, onChange: this.handleTextChange }),
+	                _react2.default.createElement('input', { type: 'submit', value: 'Post' })
+	            );
+	        }
+	    }]);
+
+	    return CommentForm;
+	}(_react2.default.Component);
+
+	exports.default = CommentForm;
+
+/***/ },
+/* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Comment = __webpack_require__(225);
+
+	var _Comment2 = _interopRequireDefault(_Comment);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CommentList = function (_React$Component) {
+	    _inherits(CommentList, _React$Component);
+
+	    function CommentList(props) {
+	        _classCallCheck(this, CommentList);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(CommentList).call(this, props));
+	    }
+
+	    _createClass(CommentList, [{
+	        key: 'render',
+	        value: function render() {
+	            var commentNodes = '';
+	            if (!this.props.data) {
+	                commentNodes = this.props.data.map(function (comment) {
+	                    return _react2.default.createElement(
+	                        _Comment2.default,
+	                        { author: comment.author, key: comment.id },
+	                        comment.text
+	                    );
+	                });
+	            } else {
+	                commentNodes = _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'No Comments yet. Get First Post!'
+	                );
+	            };
+
+	            return _react2.default.createElement(
 	                'div',
 	                null,
+	                'Comments:',
 	                _react2.default.createElement(
 	                    'div',
 	                    null,
-	                    this.props.params.image.split(".")[0]
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    null,
-	                    _react2.default.createElement('img', { src: '/uploads/' + this.props.params.image, className: 'picture',
-	                        title: this.props.params.image.split(".")[0] })
+	                    commentNodes
 	                )
 	            );
 	        }
 	    }]);
 
-	    return ImagePage;
+	    return CommentList;
 	}(_react2.default.Component);
 
-	exports.default = ImagePage;
+	exports.default = CommentList;
 
 /***/ },
-/* 222 */
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Comment = function (_React$Component) {
+	    _inherits(Comment, _React$Component);
+
+	    function Comment(props) {
+	        _classCallCheck(this, Comment);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Comment).call(this, props));
+	    }
+
+	    _createClass(Comment, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "comment" },
+	                _react2.default.createElement(
+	                    "h2",
+	                    { className: "commentAuthor" },
+	                    this.props.author
+	                ),
+	                this.props.children
+	            );
+	        }
+	    }]);
+
+	    return Comment;
+	}(_react2.default.Component);
+
+	exports.default = Comment;
+
+/***/ },
+/* 226 */
 /***/ function(module, exports) {
 
 	(function(self) {

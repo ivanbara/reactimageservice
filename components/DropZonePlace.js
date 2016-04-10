@@ -32,7 +32,7 @@ class DropZonePlace extends React.Component{
 		data.append('recfile', this.uploadFile);
 		data.append('user', 'guestUser');
 
-		fetch('http://localhost:3000/api/uploads/upload/', {
+		fetch('/api/uploads/upload/', {
 		  method: 'post',
 		  body: data
 			}).then((res) => {

@@ -3,6 +3,19 @@ body{
 	padding:20px;
   text-align: center;
 }
+
+.comment{
+	border: 3px solid green;
+	padding: 5px;
+	margin: 5px;
+}
+
+.commentBox{
+	border: 3px solid blue;
+	padding: 5px;
+	margin: 5px;
+}
+
 .mammothdiv{
 	float: left;
 	padding: 8px;
@@ -190,4 +203,6 @@ h1{
 {
   color: white;
 }
+
+
 

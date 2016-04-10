@@ -16,6 +16,30 @@ router.get('/all', (req, res) => {
 	res.json({ images: imgs});
 });
 
+var comments = {
+   	mammooth: { comments: [
+  		{id: 1, author: 'Pete Hunt', text: 'This is one comment'},
+ 			{id: 2, author: 'Jordan Walke', text: 'This is *another* comment'}
+ 		]},
+ 		mammoth_back: { comments: [
+  	{id: 1, author: 'Jerry Jones', text: 'First comment'},
+ 		{id: 2, author: 'Jordan James', text: 'Second comment'}
+ 		]}
+	};
+
+router.get('/comments/:imageName', (req, res) => {
+	let name = req.params.imageName;
+  res.json(comments[name]);
+});
+
+router.post('/comments/:imageName', (req, res) => {
+	let jsonobj = JSON.parse(req.body.comments);
+	let imageName = req.params.imageName;
+	jsonobj.id = Object.keys(comments[imageName].comments).length + 1;
+	comments[imageName].comments.push(jsonobj);
+  res.json({ message: 'ok'});
+});
+
 
 router.post('/upload',  (req, res) => {
 	var tempPath = req.files[0].path;

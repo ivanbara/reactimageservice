@@ -37,7 +37,7 @@ class ReactApp extends React.Component {
     return (
       <div id='app' style={styles.container}>
         <div className='uploadzone'>
-          <DropZonePlace updateImages={loadImages => this.loadImagesAjax()}/>       
+          <DropZonePlace updateImages={this.loadImagesAjax}/>       
         </div>
         <AjaxList images={this.state.images} />
       </div>
