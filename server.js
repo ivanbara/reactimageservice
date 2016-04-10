@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import multer from 'multer';
 import cors from 'cors';
 import express from 'express';
-import uploads from './routesServer/uploads';
+import uploads from './routes/uploads';
 import routes from './routes/mainrouter';
 
 const app = express();
