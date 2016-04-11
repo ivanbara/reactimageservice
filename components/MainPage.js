@@ -4,13 +4,17 @@ class MainPage extends React.Component {
   
     render() {
         return (
-        	<div>
-        		<h1>Isomorphimg</h1>
-        		<div className='navbar'>
-        		navbar
-          	</div>
+        	<div className='wrapper'>
+        		<div className='header'>
+                    <div className='title'>
+                        IsomorphImg
+                    </div>
+                    <div className='navbar'>
+                        navbar
+                    </div>
+                </div>
         		{this.props.children}
-        		<div>
+        		<div className='footer'>
         			Footer
         		</div>
         	</div>

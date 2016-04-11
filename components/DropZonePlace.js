@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 
 var style = {
   background: 'red'
@@ -20,6 +21,7 @@ class DropZonePlace extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onDragOver = this.onDragOver.bind(this);
     this.onDragLeave = this.onDragLeave.bind(this);
+    this.setOriginalText = this.setOriginalText.bind(this);
      
 	}
 
@@ -46,12 +48,17 @@ class DropZonePlace extends React.Component{
 	        		status: (<p id='checkMark'><i className="fa fa-check"></i></p>)
 	      		});
             this.props.updateImages();
+            _.delay( this.setOriginalText, 2000);
 					};
 		});
       this.uploadFile = '';
 		this.setState({
         imagePreviewUrl: ''
     });
+  }
+
+  setOriginalText(){
+    this.setState({status: (<p>Click or drop files here to upload...</p>)});
   }
 
   handleImageChange(e) {

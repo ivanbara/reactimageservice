@@ -1,7 +1,52 @@
 body{
 	background-color: white;
-	padding:20px;
   text-align: center;
+  margin-top: 80px;
+  padding: 0;
+}
+
+.wrapper{
+	width: 100%; //fallback
+  width: 100vw;
+  clear: both;
+}
+.header{
+	width: 100%; //fallback
+  width: 100vw;
+	background-color: #fff3ea;
+	height: 80px;
+	position: absolute;
+  top:0;
+  left:0;
+  display: block;
+}
+
+.footer{
+	font-size: 0.75em;
+	width: 100%; //fallback
+  width: 100vw;
+	background-color: #fff3ea;
+	height: 50px;
+	position: absolute;
+  left: 0;
+  text-align: center;
+  clear: both;
+
+}
+
+.title{
+	display: inline-block;
+	padding: 10px;
+	margin: 20px;
+	font-size: 1.5em;
+	width: 30%;
+}
+.navbar{
+	display: inline-block;
+	padding: 10px;
+	margin: 20px;
+	font-size: 1em;
+	width: 30%;
 }
 
 .comment{
@@ -38,12 +83,6 @@ body{
 }
 
 
-h1{
-    font-size: 18px;
-    margin-bottom: 30px;
-    padding-top: 20px;
-}
-
 .picture{
     display: inline-block;
     padding: 5px;
@@ -76,7 +115,7 @@ h1{
 	width: 200px;
 	height: 200px;
 	margin: 10px;
-	border-radius: 15%;
+	
 	-webkit-transition: all 0.5s;
 	   -moz-transition: all 0.5s;
 	     -o-transition: all 0.5s;
@@ -111,11 +150,9 @@ h1{
 }
 
 
-
 .container{
 	display: flex;
-	flex-wrap: wrap;
-	
+	flex-wrap: wrap;	
 }
 
 
