@@ -2,9 +2,9 @@
   "name": "nodereact",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "webpack -d --watch",
+    "dev": "nodemon index.js",
     "build": "webpack -p"
   },
   "keywords": [],
