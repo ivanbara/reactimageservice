@@ -1,7 +1,8 @@
 import React from 'react';
+import Scroller from './Scroller';
 
 class MainPage extends React.Component {
-  
+
     render() {
         return (
         	<div className='wrapper'>
@@ -16,6 +17,7 @@ class MainPage extends React.Component {
         		{this.props.children}
         		<div className='footer'>
         			Footer
+                    <Scroller />
         		</div>
         	</div>
         );

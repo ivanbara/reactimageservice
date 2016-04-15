@@ -61,7 +61,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// "fetch" global
-	__webpack_require__(228);
+	__webpack_require__(229);
 
 	var app = document.getElementById('app');
 
@@ -24751,7 +24751,7 @@
 
 	var _MainPage2 = _interopRequireDefault(_MainPage);
 
-	var _ImagePage = __webpack_require__(223);
+	var _ImagePage = __webpack_require__(224);
 
 	var _ImagePage2 = _interopRequireDefault(_ImagePage);
 
@@ -24989,6 +24989,13 @@
 	  background: 'red'
 	};
 
+	var timer = '';
+
+	function getDocHeight() {
+	  var D = document;
+	  return Math.max(D.body.scrollHeight, D.documentElement.scrollHeight, D.body.offsetHeight, D.documentElement.offsetHeight, D.body.clientHeight, D.documentElement.clientHeight);
+	}
+
 	var DropZonePlace = function (_React$Component) {
 	  _inherits(DropZonePlace, _React$Component);
 
@@ -24999,7 +25006,8 @@
 
 	    _this.state = {
 	      imagePreviewUrl: '',
-	      status: _react2.default.createElement(
+	      status: 'idle',
+	      statusMsg: _react2.default.createElement(
 	        'p',
 	        null,
 	        'Click or drop files here to upload...'
@@ -25034,7 +25042,8 @@
 	        body: data
 	      }).then(function (res) {
 	        _this2.setState({
-	          status: _react2.default.createElement(
+	          status: 'uploading',
+	          statusMsg: _react2.default.createElement(
 	            'p',
 	            null,
 	            'Uploading...'
@@ -25044,25 +25053,37 @@
 	      }).then(function (val) {
 	        if (val.message == 'ok') {
 	          _this2.setState({
-	            status: _react2.default.createElement(
+	            status: 'done',
+	            statusMsg: _react2.default.createElement(
 	              'p',
 	              { id: 'checkMark' },
 	              _react2.default.createElement('i', { className: 'fa fa-check' })
 	            )
 	          });
 	          _this2.props.updateImages();
-	          _lodash2.default.delay(_this2.setOriginalText, 2000);
+	          timer = _lodash2.default.delay(_this2.setOriginalText, 1000);
 	        };
 	      });
 	      this.uploadFile = '';
 	      this.setState({
 	        imagePreviewUrl: ''
 	      });
+
+	      var maxScroll = getDocHeight() - screen.height;
+	      var percentage = maxScroll > 0 ? document.body.scrollTop / maxScroll : 0;
+
+	      console.log('scroltop', document.body.scrollTop);
+
+	      console.log('maxScroll', maxScroll);
+	      console.log('percentage', percentage);
+
+	      console.log('docHeight', getDocHeight());
+	      console.log('screen height', screen.height);
 	    }
 	  }, {
 	    key: 'setOriginalText',
 	    value: function setOriginalText() {
-	      this.setState({ status: _react2.default.createElement(
+	      this.setState({ status: 'idle', statusMsg: _react2.default.createElement(
 	          'p',
 	          null,
 	          'Click or drop files here to upload...'
@@ -25074,7 +25095,9 @@
 	      var _this3 = this;
 
 	      e.preventDefault();
-
+	      if (timer !== '') {
+	        clearTimeout(timer);
+	      };
 	      var reader = new FileReader();
 	      var file = e.target.files[0];
 
@@ -25110,7 +25133,7 @@
 	    value: function render() {
 	      var imagePreviewUrl = this.state.imagePreviewUrl;
 
-	      var imagePreview = this.state.status;
+	      var imagePreview = this.state.statusMsg;
 	      if (imagePreviewUrl) {
 	        imagePreview = _react2.default.createElement('img', { src: imagePreviewUrl, className: 'dropPreview' });
 	      }
@@ -41137,6 +41160,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _Scroller = __webpack_require__(223);
+
+	var _Scroller2 = _interopRequireDefault(_Scroller);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41178,7 +41205,8 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'footer' },
-	                    'Footer'
+	                    'Footer',
+	                    _react2.default.createElement(_Scroller2.default, null)
 	                )
 	            );
 	        }
@@ -41196,6 +41224,111 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var SCROLL_TIMEOUT = 200;
+	var CHECK_INTERVAL = SCROLL_TIMEOUT / 2;
+
+	var Scroller = function (_React$Component) {
+	  _inherits(Scroller, _React$Component);
+
+	  function Scroller(props) {
+	    _classCallCheck(this, Scroller);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Scroller).call(this, props));
+
+	    _this.onScrollEnd = _this.onScrollEnd.bind(_this);
+	    _this.onScrollStart = _this.onScrollStart.bind(_this);
+	    _this.onScroll = _this.onScroll.bind(_this);
+	    _this.checkScroll = _this.checkScroll.bind(_this);
+
+	    _this.state = { scrolling: false };
+	    _this.scrolling = false;
+	    _this.checkInterval = setInterval(_this.checkScroll, CHECK_INTERVAL);
+	    return _this;
+	  }
+
+	  _createClass(Scroller, [{
+	    key: 'onScrollStart',
+	    value: function onScrollStart() {
+	      this.setState({ scrolling: true });
+	      console.log('scroll start');
+	    }
+	  }, {
+	    key: 'onScrollEnd',
+	    value: function onScrollEnd() {
+	      this.setState({ scrolling: false });
+	      console.log('scroll END');
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      window.addEventListener('scroll', this.onScroll, false);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      window.removeEventListener('scroll', this.onScroll, false);
+	      clearInterval(this.checkInterval);
+	    }
+	  }, {
+	    key: 'checkScroll',
+	    value: function checkScroll() {
+	      if (Date.now() - this.lastScrollTime > SCROLL_TIMEOUT && this.scrolling) {
+	        this.scrolling = false;
+	        this.onScrollEnd();
+	      }
+	    }
+	  }, {
+	    key: 'onScroll',
+	    value: function onScroll() {
+	      if (!this.scrolling) {
+	        this.scrolling = true;
+	        this.onScrollStart();
+	      }
+	      this.lastScrollTime = Date.now();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { style: { lineHeight: 500, height: 1000 } },
+	        'Hello ',
+	        this.props.name,
+	        '! Scrolling? ',
+	        this.state.scrolling ? 'yes' : 'no'
+	      );
+	    }
+	  }]);
+
+	  return Scroller;
+	}(_react2.default.Component);
+
+	exports.default = Scroller;
+
+/***/ },
+/* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
 					value: true
 	});
 
@@ -41205,7 +41338,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _CommentBox = __webpack_require__(224);
+	var _CommentBox = __webpack_require__(225);
 
 	var _CommentBox2 = _interopRequireDefault(_CommentBox);
 
@@ -41259,7 +41392,7 @@
 	exports.default = ImagePage;
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41274,11 +41407,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _CommentForm = __webpack_require__(225);
+	var _CommentForm = __webpack_require__(226);
 
 	var _CommentForm2 = _interopRequireDefault(_CommentForm);
 
-	var _CommentList = __webpack_require__(226);
+	var _CommentList = __webpack_require__(227);
 
 	var _CommentList2 = _interopRequireDefault(_CommentList);
 
@@ -41364,7 +41497,7 @@
 	exports.default = CommentBox;
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41444,7 +41577,7 @@
 	exports.default = CommentForm;
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41459,7 +41592,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Comment = __webpack_require__(227);
+	var _Comment = __webpack_require__(228);
 
 	var _Comment2 = _interopRequireDefault(_Comment);
 
@@ -41510,7 +41643,7 @@
 	exports.default = CommentList;
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -41564,7 +41697,7 @@
 	exports.default = Comment;
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports) {
 
 	(function(self) {

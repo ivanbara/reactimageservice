@@ -5,7 +5,7 @@ var style = {
   background: 'red'
 };
 
-
+var timer = '';
 
 class DropZonePlace extends React.Component{
 
@@ -13,7 +13,8 @@ class DropZonePlace extends React.Component{
 		super(props);
 		this.state = {
       imagePreviewUrl: '',
-      status: (<p>Click or drop files here to upload...</p>),
+      status: 'idle',
+      statusMsg: (<p>Click or drop files here to upload...</p>),
       style: {}
     };
     this.uploadFile = '';
@@ -39,16 +40,18 @@ class DropZonePlace extends React.Component{
 		  body: data
 			}).then((res) => {
 					this.setState({
-	        	status: (<p>Uploading...</p>)
+	        	status: 'uploading',
+            statusMsg: (<p>Uploading...</p>) 
 	      	});
 					return res.json();
 			}).then((val) =>{
 					if(val.message == 'ok'){
 						this.setState({
-	        		status: (<p id='checkMark'><i className="fa fa-check"></i></p>)
+	        		status: 'done',
+              statusMsg: (<p id='checkMark'><i className="fa fa-check"></i></p>)
 	      		});
             this.props.updateImages();
-            _.delay( this.setOriginalText, 2000);
+            timer = _.delay( this.setOriginalText, 1000);
 					};
 		});
       this.uploadFile = '';
@@ -58,12 +61,14 @@ class DropZonePlace extends React.Component{
   }
 
   setOriginalText(){
-    this.setState({status: (<p>Click or drop files here to upload...</p>)});
+    this.setState({status: 'idle', statusMsg: (<p>Click or drop files here to upload...</p>)});
   }
 
   handleImageChange(e) {
     e.preventDefault();
-
+    if (timer !== '') {
+      clearTimeout(timer);
+    };
     let reader = new FileReader();
     let file = e.target.files[0];
 
@@ -97,7 +102,7 @@ class DropZonePlace extends React.Component{
         		
 	render(){
 		let {imagePreviewUrl} = this.state;
-    let imagePreview = this.state.status;
+    let imagePreview = this.state.statusMsg;
     if (imagePreviewUrl) {
       imagePreview = (<img src={imagePreviewUrl} className='dropPreview'/>);
     }

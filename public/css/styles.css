@@ -89,9 +89,8 @@ body{
     margin: 2px;
     cursor: pointer;
     position: relative;
-    background-color: #fff3ea;
     border: solid 5px #ccae94;
-    border-radius: 10%;
+
 }
 
 .pictures{
@@ -100,7 +99,7 @@ body{
   white-space: nowrap;
   overflow-y: auto;
   margin: 20px;
-  width: 800px;
+  width: 150px;
 
 }
 

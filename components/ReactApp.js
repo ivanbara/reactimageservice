@@ -16,6 +16,7 @@ class ReactApp extends React.Component {
     this.loadImagesAjax();
   }
 
+
   loadImagesAjax(){
     var url = '/api/uploads/all';
     var myInit = {method: 'Get'}
