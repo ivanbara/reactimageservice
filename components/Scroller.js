@@ -25,19 +25,8 @@ class Scroller extends React.Component {
       this.state = {scrolling: false};
       this.scrolling = false;
       this.checkInterval = setInterval(this.checkScroll, CHECK_INTERVAL);
-    }
 
-    printTest(){
-    	let maxScroll = getDocHeight() - screen.height;
-	    let percentage = maxScroll > 0 ? (document.body.scrollTop / maxScroll) : 0;
-
-	    console.log('scroltop',document.body.scrollTop);
-
-	    console.log('maxScroll', maxScroll);
-	    console.log('percentage', percentage);
-
-	    console.log('docHeight', getDocHeight());
-	    console.log('screen height', screen.height);
+      this.stylem = {lineHeight: 50, height: 100};
     }
 	  
 	  componentDidMount(){
@@ -62,6 +51,17 @@ class Scroller extends React.Component {
     }
 
     onScrollEnd(){
+    	let doc = document.documentElement;
+    	let top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+	    let viewPortHeight = window.innerHeight;
+	    let bodyHeight = document.body.scrollHeight;
+			
+			// If at bottom
+			if ( (bodyHeight - top) == viewPortHeight) {
+				console.log('---------------Loading More Stuff-----------------');
+	    	this.props.loadMore();
+			}
+	    
       this.setState({scrolling: false});
     	console.log('scroll END');
     }
@@ -76,7 +76,7 @@ class Scroller extends React.Component {
 
 
     render(){
-      return <div style={{lineHeight: 500, height: 1000}}>Hello {this.props.name}! Scrolling? {this.state.scrolling ? 'yes' : 'no'}</div>;
+      return (<div style={this.stylem}>First Div</div>);
     }
 }
 

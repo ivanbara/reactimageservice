@@ -24991,11 +24991,6 @@
 
 	var timer = '';
 
-	function getDocHeight() {
-	  var D = document;
-	  return Math.max(D.body.scrollHeight, D.documentElement.scrollHeight, D.body.offsetHeight, D.documentElement.offsetHeight, D.body.clientHeight, D.documentElement.clientHeight);
-	}
-
 	var DropZonePlace = function (_React$Component) {
 	  _inherits(DropZonePlace, _React$Component);
 
@@ -25068,17 +25063,6 @@
 	      this.setState({
 	        imagePreviewUrl: ''
 	      });
-
-	      var maxScroll = getDocHeight() - screen.height;
-	      var percentage = maxScroll > 0 ? document.body.scrollTop / maxScroll : 0;
-
-	      console.log('scroltop', document.body.scrollTop);
-
-	      console.log('maxScroll', maxScroll);
-	      console.log('percentage', percentage);
-
-	      console.log('docHeight', getDocHeight());
-	      console.log('screen height', screen.height);
 	    }
 	  }, {
 	    key: 'setOriginalText',
@@ -41244,6 +41228,11 @@
 	var SCROLL_TIMEOUT = 200;
 	var CHECK_INTERVAL = SCROLL_TIMEOUT / 2;
 
+	function getDocHeight() {
+	  var D = document;
+	  return Math.max(D.body.scrollHeight, D.documentElement.scrollHeight, D.body.offsetHeight, D.documentElement.offsetHeight, D.body.clientHeight, D.documentElement.clientHeight);
+	}
+
 	var Scroller = function (_React$Component) {
 	  _inherits(Scroller, _React$Component);
 
@@ -41260,22 +41249,12 @@
 	    _this.state = { scrolling: false };
 	    _this.scrolling = false;
 	    _this.checkInterval = setInterval(_this.checkScroll, CHECK_INTERVAL);
+
+	    _this.stylem = { lineHeight: 50, height: 100 };
 	    return _this;
 	  }
 
 	  _createClass(Scroller, [{
-	    key: 'onScrollStart',
-	    value: function onScrollStart() {
-	      this.setState({ scrolling: true });
-	      console.log('scroll start');
-	    }
-	  }, {
-	    key: 'onScrollEnd',
-	    value: function onScrollEnd() {
-	      this.setState({ scrolling: false });
-	      console.log('scroll END');
-	    }
-	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      window.addEventListener('scroll', this.onScroll, false);
@@ -41295,6 +41274,29 @@
 	      }
 	    }
 	  }, {
+	    key: 'onScrollStart',
+	    value: function onScrollStart() {
+	      this.setState({ scrolling: true });
+	      console.log('scroll start');
+	    }
+	  }, {
+	    key: 'onScrollEnd',
+	    value: function onScrollEnd() {
+	      var doc = document.documentElement;
+	      var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+	      var viewPortHeight = window.innerHeight;
+	      var bodyHeight = document.body.scrollHeight;
+
+	      // If at bottom
+	      if (bodyHeight - top == viewPortHeight) {
+	        console.log('---------------Loading More Stuff-----------------');
+	        this.props.loadMore();
+	      }
+
+	      this.setState({ scrolling: false });
+	      console.log('scroll END');
+	    }
+	  }, {
 	    key: 'onScroll',
 	    value: function onScroll() {
 	      if (!this.scrolling) {
@@ -41308,11 +41310,8 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { style: { lineHeight: 500, height: 1000 } },
-	        'Hello ',
-	        this.props.name,
-	        '! Scrolling? ',
-	        this.state.scrolling ? 'yes' : 'no'
+	        { style: this.stylem },
+	        'First Div'
 	      );
 	    }
 	  }]);
