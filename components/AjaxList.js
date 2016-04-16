@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router';
 import Spinner from './spinner';
 
-const SCROLL_TIMEOUT = 200;
+const SCROLL_TIMEOUT = 220;
 const CHECK_INTERVAL = SCROLL_TIMEOUT / 2;
 
 function getDocHeight() {
-    var D = document;
+    let D = document;
     return Math.max(
         D.body.scrollHeight, D.documentElement.scrollHeight,
         D.body.offsetHeight, D.documentElement.offsetHeight,
@@ -23,7 +23,7 @@ class AjaxList extends React.Component {
       this.onScroll = this.onScroll.bind(this);
       this.checkScroll = this.checkScroll.bind(this);
       
-      this.state = {scrolling: false, loading: false};
+      this.state = {scrolling: false};
       this.scrolling = false;
       this.checkInterval = setInterval(this.checkScroll, CHECK_INTERVAL);
 	}
@@ -45,8 +45,7 @@ class AjaxList extends React.Component {
   }
 
   onScrollStart(){
-    this.setState({scrolling: true, loading: false});
-    console.log('scroll start');
+    this.setState({scrolling: true});
   }
 
   onScrollEnd(){
@@ -56,14 +55,12 @@ class AjaxList extends React.Component {
     let bodyHeight = getDocHeight();
     
     // If at bottom
-    if ( (bodyHeight - top) == viewPortHeight) {
+    if ( (bodyHeight - top) == viewPortHeight && !this.props.loading) {
       console.log('---------------Loading More Stuff-----------------');
       this.props.loadMore();
-      this.setState({loading: true});
     }
     
     this.setState({scrolling: false});
-    console.log('scroll END');
   }
 
   onScroll(){
@@ -90,12 +87,13 @@ class AjaxList extends React.Component {
       if(!pictures){
           pictures = <p className="pictures">Loading images...</p>;
       }
-      loading = (this.state.loading ? 'loading' : '');
+      
+
       return (
           <div>
               <h1>Image Gallery</h1>
               <div className="pictures"> {pictures} </div>
-              <div className="loadingSpinner"> {this.state.loading ? '' : <Spinner />} </div>
+              <div className="loadingSpinner"> {this.props.loading ? <Spinner /> : ''} </div>
           </div>
       );
 	}

@@ -1,14 +1,15 @@
 import React from 'react';
 import AjaxList from './AjaxList';
 import DropZonePlace from './DropZonePlace';
-
+import Fetch from 'fetch.io';
 
 class ReactApp extends React.Component {
   constructor(props) {
     super(props); 
     this.state = {
       value: 'set',
-      images: null
+      images: null,
+      loading: false
     };
   }
 
@@ -18,8 +19,10 @@ class ReactApp extends React.Component {
 
 
   loadImagesAjax(){
-    var url = '/api/uploads/all';
-    var myInit = {method: 'Get'}
+    const url = '/api/uploads/all';
+    const myInit = {method: 'Get'}
+    this.setState({loading: true});
+
     fetch(url, myInit).then((response)=>{
       if (response.status >= 200 && response.status < 300) {
         return response;
@@ -28,11 +31,45 @@ class ReactApp extends React.Component {
       return response.json();
     }).then((data) => {
       this.setState({
-          images: data.images
+          images: data.images,
+          loading: false
       });
     });
   }
 
+  loadLastPost(){
+    var url = '/api/uploads/getone';
+    let img = JSON.parse(JSON.stringify(this.state.images));
+    
+    var lastPost = img[img.length - 1];
+    this.setState({loading: true});
+
+    const request = new Fetch();
+
+    request.get(url)
+      .query({
+        created_before: lastPost.created
+      }).then(res => {
+        if (res.status >= 200 && res.status < 300) {
+          return res;
+        }
+      })
+      .then(res => {
+        console.log('response arrived');
+        return res.json();
+      }).then(data => {
+        let combined = [...this.state.images, ...data.images];
+        console.log(combined);
+        this.setState({
+            images: combined,
+            loading: false
+        });
+      })
+      .catch(err => {
+        console.log('error: ', err);
+        this.setState({loading: false});
+      });
+  }
 
 
   render() {
@@ -41,7 +78,7 @@ class ReactApp extends React.Component {
         <div className='uploadzone'>
           <DropZonePlace updateImages={(loadImages) => this.loadImagesAjax()}/>       
         </div>
-        <AjaxList images={this.state.images} loadMore={(loadImages) => this.loadImagesAjax()} />
+        <AjaxList loading={this.state.loading} images={this.state.images} loadMore={(loadLastPost) => this.loadLastPost()} />
       </div>
     );
   }

@@ -4,17 +4,46 @@ var router = express.Router();
 var fs = require('fs');
 var path = require('path');
 var uid = require('uid-safe');
+var _ = require('lodash');
 
-var imgs = [{imageName: 'mammooth.png', imageURL: '/uploads/mammooth.png', extension: '.png'},
-			{imageName: 'mammoth_back.png', imageURL: '/uploads/mammoth_back.png', extension:'.png'},
-			{imageName: 'mammoth_happy.png', imageURL: '/uploads/mammoth_happy.png', extension:'.png'},
-			{imageName: 'mammoth_seated.png', imageURL: '/uploads/mammoth_seated.png', extension:'.png'},
+var imgs = [{imageName: 'mammooth.png', imageURL: '/uploads/mammooth.png', extension: '.png', created: 10000},
+			{imageName: 'mammoth_back.png', imageURL: '/uploads/mammoth_back.png', extension:'.png', created: 9999},
+			{imageName: 'mammoth_happy.png', imageURL: '/uploads/mammoth_happy.png', extension:'.png', created: 9998},
+			{imageName: 'mammoth_seated.png', imageURL: '/uploads/mammoth_seated.png', extension:'.png', created: 9997},
 		];
 
 
+
 router.get('/all', (req, res) => {
-	res.json({ images: imgs});
+	// Simulating server delay
+	setTimeout(function() {
+      res.json({ images: imgs});
+    },500);
 });
+
+router.get('/getone', (req, res) => {
+	let paramDate = req.query.created_before;
+	let returnImages = [];
+
+	for (var i in imgs) {
+  	if (imgs[i].created < req.query.created_before){
+  		returnImages.push(imgs[i]);
+  	}
+	}
+
+	// simulation
+	let name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+	let fakeOldDate = imgs[imgs.length - 1].created - 1;
+	let fakeImg = {imageName: name, imageURL: '/uploads/mammooth.png', extension: '.png', created: fakeOldDate};
+	imgs.push(fakeImg);
+	returnImages.push(fakeImg);
+	//---------------
+
+	setTimeout(function() {
+      res.json({ images: returnImages});
+   	},1000);
+});
+
 
 var comments = {
    	mammooth: { comments: [
@@ -77,7 +106,7 @@ router.post('/upload',  (req, res) => {
     });
   });
 	var x = '/uploads/' + str;
-	imgs.push({imageName: str, imageURL: x, extension: '.png'});
+	imgs.unshift({imageName: str, imageURL: x, extension: '.png', created: Date.now()});
 	res.json({ message: 'ok'});
 });
 

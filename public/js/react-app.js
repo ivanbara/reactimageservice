@@ -61,7 +61,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// "fetch" global
-	__webpack_require__(229);
+	__webpack_require__(230);
 
 	var app = document.getElementById('app');
 
@@ -24747,11 +24747,11 @@
 
 	var _ReactApp2 = _interopRequireDefault(_ReactApp);
 
-	var _MainPage = __webpack_require__(223);
+	var _MainPage = __webpack_require__(224);
 
 	var _MainPage2 = _interopRequireDefault(_MainPage);
 
-	var _ImagePage = __webpack_require__(224);
+	var _ImagePage = __webpack_require__(225);
 
 	var _ImagePage2 = _interopRequireDefault(_ImagePage);
 
@@ -24788,7 +24788,13 @@
 
 	var _DropZonePlace2 = _interopRequireDefault(_DropZonePlace);
 
+	var _fetch = __webpack_require__(223);
+
+	var _fetch2 = _interopRequireDefault(_fetch);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -24806,7 +24812,8 @@
 
 	    _this.state = {
 	      value: 'set',
-	      images: null
+	      images: null,
+	      loading: false
 	    };
 	    return _this;
 	  }
@@ -24823,6 +24830,8 @@
 
 	      var url = '/api/uploads/all';
 	      var myInit = { method: 'Get' };
+	      this.setState({ loading: true });
+
 	      fetch(url, myInit).then(function (response) {
 	        if (response.status >= 200 && response.status < 300) {
 	          return response;
@@ -24831,14 +24840,49 @@
 	        return response.json();
 	      }).then(function (data) {
 	        _this2.setState({
-	          images: data.images
+	          images: data.images,
+	          loading: false
 	        });
+	      });
+	    }
+	  }, {
+	    key: 'loadLastPost',
+	    value: function loadLastPost() {
+	      var _this3 = this;
+
+	      var url = '/api/uploads/getone';
+	      var img = JSON.parse(JSON.stringify(this.state.images));
+
+	      var lastPost = img[img.length - 1];
+	      this.setState({ loading: true });
+
+	      var request = new _fetch2.default();
+
+	      request.get(url).query({
+	        created_before: lastPost.created
+	      }).then(function (res) {
+	        if (res.status >= 200 && res.status < 300) {
+	          return res;
+	        }
+	      }).then(function (res) {
+	        console.log('response arrived');
+	        return res.json();
+	      }).then(function (data) {
+	        var combined = [].concat(_toConsumableArray(_this3.state.images), _toConsumableArray(data.images));
+	        console.log(combined);
+	        _this3.setState({
+	          images: combined,
+	          loading: false
+	        });
+	      }).catch(function (err) {
+	        console.log('error: ', err);
+	        _this3.setState({ loading: false });
 	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -24847,11 +24891,11 @@
 	          'div',
 	          { className: 'uploadzone' },
 	          _react2.default.createElement(_DropZonePlace2.default, { updateImages: function updateImages(loadImages) {
-	              return _this3.loadImagesAjax();
+	              return _this4.loadImagesAjax();
 	            } })
 	        ),
-	        _react2.default.createElement(_AjaxList2.default, { images: this.state.images, loadMore: function loadMore(loadImages) {
-	            return _this3.loadImagesAjax();
+	        _react2.default.createElement(_AjaxList2.default, { loading: this.state.loading, images: this.state.images, loadMore: function loadMore(loadLastPost) {
+	            return _this4.loadLastPost();
 	          } })
 	      );
 	    }
@@ -24908,7 +24952,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var SCROLL_TIMEOUT = 200;
+	var SCROLL_TIMEOUT = 220;
 	var CHECK_INTERVAL = SCROLL_TIMEOUT / 2;
 
 	function getDocHeight() {
@@ -24929,7 +24973,7 @@
 	    _this.onScroll = _this.onScroll.bind(_this);
 	    _this.checkScroll = _this.checkScroll.bind(_this);
 
-	    _this.state = { scrolling: false, loading: false };
+	    _this.state = { scrolling: false };
 	    _this.scrolling = false;
 	    _this.checkInterval = setInterval(_this.checkScroll, CHECK_INTERVAL);
 	    return _this;
@@ -24957,8 +25001,7 @@
 	  }, {
 	    key: 'onScrollStart',
 	    value: function onScrollStart() {
-	      this.setState({ scrolling: true, loading: false });
-	      console.log('scroll start');
+	      this.setState({ scrolling: true });
 	    }
 	  }, {
 	    key: 'onScrollEnd',
@@ -24969,14 +25012,12 @@
 	      var bodyHeight = getDocHeight();
 
 	      // If at bottom
-	      if (bodyHeight - top == viewPortHeight) {
+	      if (bodyHeight - top == viewPortHeight && !this.props.loading) {
 	        console.log('---------------Loading More Stuff-----------------');
 	        this.props.loadMore();
-	        this.setState({ loading: true });
 	      }
 
 	      this.setState({ scrolling: false });
-	      console.log('scroll END');
 	    }
 	  }, {
 	    key: 'onScroll',
@@ -25009,7 +25050,7 @@
 	          'Loading images...'
 	        );
 	      }
-	      loading = this.state.loading ? 'loading' : '';
+
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -25029,7 +25070,7 @@
 	          'div',
 	          { className: 'loadingSpinner' },
 	          ' ',
-	          this.state.loading ? '' : _react2.default.createElement(_spinner2.default, null),
+	          this.props.loading ? _react2.default.createElement(_spinner2.default, null) : '',
 	          ' '
 	        )
 	      );
@@ -41270,6 +41311,380 @@
 /* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var assign = Object.assign;
+
+	/**
+	 * Request
+	 */
+
+	var Request = function () {
+	  function Request(method, url) {
+	    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	    _classCallCheck(this, Request);
+
+	    method = method.toUpperCase();
+	    if (typeof url !== 'string') {
+	      throw new TypeError('invalid url');
+	    }
+
+	    this.options = options;
+	    var prefix = options.prefix || '';
+	    this.url = prefix + url;
+
+	    options.method = method;
+	    options.mode = options.mode || 'cors';
+	    options.cache = options.cache || 'no-cache';
+	    options.credentials = options.credentials || 'same-origin';
+
+	    // fetch will normalize the headers
+	    var headers = options.headers = options.headers || {};
+	    options.query = options.query || {};
+
+	    for (var h in headers) {
+	      if (h !== h.toLowerCase()) {
+	        headers[h.toLowerCase()] = headers[h];
+	        delete headers[h];
+	      }
+	    }
+	  }
+
+	  /**
+	   * Set Options
+	   *
+	   * Examples:
+	   *
+	   *   .config('credentials', 'omit')
+	   *   .config({ credentials: 'omit' })
+	   *
+	   * @param {String|Object} key
+	   * @param {Any} value
+	   * @return {Request}
+	   */
+
+
+	  _createClass(Request, [{
+	    key: 'config',
+	    value: function config(key, value) {
+	      var options = this.options;
+
+	      if ((typeof key === 'undefined' ? 'undefined' : _typeof(key)) === 'object') {
+	        for (var k in key) {
+	          options[k] = key[k];
+	        }
+	      } else {
+	        options[key] = value;
+	      }
+
+	      return this;
+	    }
+
+	    /**
+	     * Set header
+	     *
+	     * Examples:
+	     *
+	     *   .set('Accept', 'application/json')
+	     *   .set({ Accept: 'application/json' })
+	     *
+	     * @param {String|Object} key
+	     * @param {String} value
+	     * @return {Request}
+	     */
+
+	  }, {
+	    key: 'set',
+	    value: function set(key, value) {
+	      var headers = this.options.headers;
+
+	      if ((typeof key === 'undefined' ? 'undefined' : _typeof(key)) === 'object') {
+	        for (var k in key) {
+	          headers[k.toLowerCase()] = key[k];
+	        }
+	      } else {
+	        headers[key.toLowerCase()] = value;
+	      }
+
+	      return this;
+	    }
+
+	    /**
+	     * Set Content-Type
+	     *
+	     * @param {String} type
+	     */
+
+	  }, {
+	    key: 'type',
+	    value: function type(_type) {
+	      switch (_type) {
+	        case 'json':
+	          _type = 'application/json';
+	          break;
+	        case 'form':
+	        case 'urlencoded':
+	          _type = 'application/x-www-form-urlencoded';
+	          break;
+	      }
+
+	      this.options.headers['content-type'] = _type;
+
+	      return this;
+	    }
+
+	    /**
+	     * Add query string
+	     *
+	     * @param {Object} object
+	     * @return {Request}
+	     */
+
+	  }, {
+	    key: 'query',
+	    value: function query(object) {
+	      var query = this.options.query;
+
+	      for (var i in object) {
+	        query[i] = object[i];
+	      }
+
+	      return this;
+	    }
+
+	    /**
+	     * Send data
+	     *
+	     * Examples:
+	     *
+	     *   .send('name=hello')
+	     *   .send({ name: 'hello' })
+	     *
+	     * @param {String|Object} data
+	     * @return {Request}
+	     */
+
+	  }, {
+	    key: 'send',
+	    value: function send(data) {
+	      var type = this.options.headers['content-type'];
+
+	      if (isObject(data) && isObject(this._body)) {
+	        // merge body
+	        for (var key in data) {
+	          this._body[key] = data[key];
+	        }
+	      } else if (typeof data === 'string') {
+	        if (!type) {
+	          this.options.headers['content-type'] = type = 'application/x-www-form-urlencoded';
+	        }
+
+	        if (type.indexOf('x-www-form-urlencoded') !== -1) {
+	          this._body = this._body ? this._body + '&' + data : data;
+	        } else {
+	          this._body = (this._body || '') + data;
+	        }
+	      } else {
+	        this._body = data;
+	      }
+
+	      // default to json
+	      if (!type) {
+	        this.options.headers['content-type'] = 'application/json';
+	      }
+
+	      return this;
+	    }
+
+	    /**
+	     * Append formData
+	     *
+	     * Examples:
+	     *
+	     *   .append(name, 'hello')
+	     *
+	     * @param {String} key
+	     * @param {String} value
+	     * @return {Request}
+	     */
+
+	  }, {
+	    key: 'append',
+	    value: function append(key, value) {
+	      if (!(this._body instanceof FormData)) {
+	        this._body = new FormData();
+
+	        if (isNode()) {
+	          var headers = this._body.getHeaders();
+	          if (headers && headers['content-type']) {
+	            this.options.headers['content-type'] = headers['content-type'];
+	          }
+	        }
+	      }
+
+	      this._body.append(key, value);
+
+	      return this;
+	    }
+	  }, {
+	    key: 'promise',
+	    value: function promise() {
+	      var options = this.options;
+	      var url = this.url;
+	      var beforeRequest = options.beforeRequest;
+	      var afterResponse = options.afterResponse;
+
+
+	      try {
+	        if (['GET', 'HEAD', 'OPTIONS'].indexOf(options.method.toUpperCase()) === -1) {
+	          if (this._body instanceof FormData) {
+	            options.body = this._body;
+	          } else if (isObject(this._body) && isJsonType(options.headers['content-type'])) {
+	            options.body = JSON.stringify(this._body);
+	          } else if (isObject(this._body)) {
+	            options.body = stringify(this._body);
+	          } else {
+	            options.body = this._body;
+	          }
+	        }
+
+	        if (isObject(options.query)) {
+	          if (url.indexOf('?') >= 0) {
+	            url += '&' + stringify(options.query);
+	          } else {
+	            url += '?' + stringify(options.query);
+	          }
+	        }
+
+	        if (beforeRequest) {
+	          var canceled = beforeRequest(url, options.body);
+	          if (canceled === false) {
+	            return Promise.reject(new Error('request canceled by beforeRequest'));
+	          }
+	        }
+	      } catch (e) {
+	        return Promise.reject(e);
+	      }
+
+	      if (afterResponse) {
+	        return fetch(url, options).then(function (res) {
+	          afterResponse();
+	          return res;
+	        });
+	      }
+
+	      return fetch(url, options);
+	    }
+	  }, {
+	    key: 'then',
+	    value: function then(resolve, reject) {
+	      return this.promise().then(resolve, reject);
+	    }
+	  }, {
+	    key: 'catch',
+	    value: function _catch(reject) {
+	      return this.promise().catch(reject);
+	    }
+	  }, {
+	    key: 'json',
+	    value: function json() {
+	      var _this = this;
+
+	      var strict = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+
+	      return this.promise().then(function (res) {
+	        return res.json();
+	      }).then(function (json) {
+	        if (strict && !isObject(json)) {
+	          throw new TypeError('response is not strict json');
+	        }
+
+	        if (_this.options.afterJSON) {
+	          _this.options.afterJSON(json);
+	        }
+
+	        return json;
+	      });
+	    }
+	  }, {
+	    key: 'text',
+	    value: function text() {
+	      return this.promise().then(function (res) {
+	        return res.text();
+	      });
+	    }
+	  }]);
+
+	  return Request;
+	}();
+
+	/**
+	 * Private utils
+	 */
+
+	function isObject(obj) {
+	  // not null
+	  return obj && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
+	}
+
+	function isJsonType(contentType) {
+	  return contentType && contentType.indexOf('application/json') === 0;
+	}
+
+	function stringify(obj) {
+	  return Object.keys(obj).map(function (key) {
+	    return key + '=' + obj[key];
+	  }).join('&');
+	}
+
+	function isNode() {
+	  return (typeof process === 'undefined' ? 'undefined' : _typeof(process)) === 'object' && process.title === 'node';
+	}
+
+	/**
+	 * Fetch
+	 */
+
+	function Fetch(options) {
+	  if (!(this instanceof Fetch)) {
+	    return new Fetch(options);
+	  }
+
+	  this.options = options || {};
+	}
+
+	var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT'];
+
+	methods.forEach(function (method) {
+	  method = method.toLowerCase();
+	  Fetch.prototype[method] = function (url) {
+	    var opts = assign({}, this.options);
+	    return new Request(method, url, opts);
+	  };
+	});
+
+	/**
+	 * export
+	 */
+
+	exports.default = Fetch;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -41281,10 +41696,6 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _Scroller = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./Scroller\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-
-	var _Scroller2 = _interopRequireDefault(_Scroller);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41339,7 +41750,7 @@
 	exports.default = MainPage;
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41354,7 +41765,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _CommentBox = __webpack_require__(225);
+	var _CommentBox = __webpack_require__(226);
 
 	var _CommentBox2 = _interopRequireDefault(_CommentBox);
 
@@ -41408,7 +41819,7 @@
 	exports.default = ImagePage;
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41423,11 +41834,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _CommentForm = __webpack_require__(226);
+	var _CommentForm = __webpack_require__(227);
 
 	var _CommentForm2 = _interopRequireDefault(_CommentForm);
 
-	var _CommentList = __webpack_require__(227);
+	var _CommentList = __webpack_require__(228);
 
 	var _CommentList2 = _interopRequireDefault(_CommentList);
 
@@ -41513,7 +41924,7 @@
 	exports.default = CommentBox;
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41593,7 +42004,7 @@
 	exports.default = CommentForm;
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41608,7 +42019,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Comment = __webpack_require__(228);
+	var _Comment = __webpack_require__(229);
 
 	var _Comment2 = _interopRequireDefault(_Comment);
 
@@ -41659,7 +42070,7 @@
 	exports.default = CommentList;
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -41713,7 +42124,7 @@
 	exports.default = Comment;
 
 /***/ },
-/* 229 */
+/* 230 */
 /***/ function(module, exports) {
 
 	(function(self) {

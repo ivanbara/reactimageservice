@@ -1,5 +1,4 @@
 import React from 'react';
-import Scroller from './Scroller';
 
 class MainPage extends React.Component {
 
