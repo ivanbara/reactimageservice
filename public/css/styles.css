@@ -5,6 +5,11 @@ body{
   padding: 0;
 }
 
+.loadingSpinner{
+	height: 25px;
+	margin-bottom: 10px;
+}
+
 .wrapper{
 	width: 100%; //fallback
   width: 100vw;
@@ -99,7 +104,7 @@ body{
   white-space: nowrap;
   overflow-y: auto;
   margin: 20px;
-  width: 150px;
+  width: 160px;
 
 }
 

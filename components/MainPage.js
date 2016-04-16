@@ -17,7 +17,6 @@ class MainPage extends React.Component {
         		{this.props.children}
         		<div className='footer'>
         			Footer
-                    <Scroller />
         		</div>
         	</div>
         );

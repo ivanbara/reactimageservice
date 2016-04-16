@@ -24747,7 +24747,7 @@
 
 	var _ReactApp2 = _interopRequireDefault(_ReactApp);
 
-	var _MainPage = __webpack_require__(222);
+	var _MainPage = __webpack_require__(223);
 
 	var _MainPage2 = _interopRequireDefault(_MainPage);
 
@@ -24784,7 +24784,7 @@
 
 	var _AjaxList2 = _interopRequireDefault(_AjaxList);
 
-	var _DropZonePlace = __webpack_require__(219);
+	var _DropZonePlace = __webpack_require__(220);
 
 	var _DropZonePlace2 = _interopRequireDefault(_DropZonePlace);
 
@@ -24850,7 +24850,9 @@
 	              return _this3.loadImagesAjax();
 	            } })
 	        ),
-	        _react2.default.createElement(_AjaxList2.default, { images: this.state.images })
+	        _react2.default.createElement(_AjaxList2.default, { images: this.state.images, loadMore: function loadMore(loadImages) {
+	            return _this3.loadImagesAjax();
+	          } })
 	      );
 	    }
 	  }]);
@@ -24883,7 +24885,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -24894,6 +24896,10 @@
 
 	var _reactRouter = __webpack_require__(159);
 
+	var _spinner = __webpack_require__(219);
+
+	var _spinner2 = _interopRequireDefault(_spinner);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -24902,63 +24908,195 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var SCROLL_TIMEOUT = 200;
+	var CHECK_INTERVAL = SCROLL_TIMEOUT / 2;
+
+	function getDocHeight() {
+	  var D = document;
+	  return Math.max(D.body.scrollHeight, D.documentElement.scrollHeight, D.body.offsetHeight, D.documentElement.offsetHeight, D.body.clientHeight, D.documentElement.clientHeight);
+	}
+
 	var AjaxList = function (_React$Component) {
-	    _inherits(AjaxList, _React$Component);
+	  _inherits(AjaxList, _React$Component);
 
-	    function AjaxList(props) {
-	        _classCallCheck(this, AjaxList);
+	  function AjaxList(props) {
+	    _classCallCheck(this, AjaxList);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(AjaxList).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AjaxList).call(this, props));
+
+	    _this.onScrollEnd = _this.onScrollEnd.bind(_this);
+	    _this.onScrollStart = _this.onScrollStart.bind(_this);
+	    _this.onScroll = _this.onScroll.bind(_this);
+	    _this.checkScroll = _this.checkScroll.bind(_this);
+
+	    _this.state = { scrolling: false, loading: false };
+	    _this.scrolling = false;
+	    _this.checkInterval = setInterval(_this.checkScroll, CHECK_INTERVAL);
+	    return _this;
+	  }
+
+	  _createClass(AjaxList, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      window.addEventListener('scroll', this.onScroll, false);
 	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      window.removeEventListener('scroll', this.onScroll, false);
+	      clearInterval(this.checkInterval);
+	    }
+	  }, {
+	    key: 'checkScroll',
+	    value: function checkScroll() {
+	      if (Date.now() - this.lastScrollTime > SCROLL_TIMEOUT && this.scrolling) {
+	        this.scrolling = false;
+	        this.onScrollEnd();
+	      }
+	    }
+	  }, {
+	    key: 'onScrollStart',
+	    value: function onScrollStart() {
+	      this.setState({ scrolling: true, loading: false });
+	      console.log('scroll start');
+	    }
+	  }, {
+	    key: 'onScrollEnd',
+	    value: function onScrollEnd() {
+	      var doc = document.documentElement;
+	      var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+	      var viewPortHeight = window.innerHeight;
+	      var bodyHeight = getDocHeight();
 
-	    _createClass(AjaxList, [{
-	        key: 'render',
-	        value: function render() {
-	            var pictures = '';
-	            if (this.props.images) {
-	                pictures = this.props.images.map(function (p) {
-	                    return _react2.default.createElement(
-	                        _reactRouter.Link,
-	                        { to: 'images/' + p.imageName, key: p.imageName },
-	                        _react2.default.createElement('img', { src: p.imageURL, className: 'picture', title: p.imageName })
-	                    );
-	                });
-	            }
+	      // If at bottom
+	      if (bodyHeight - top == viewPortHeight) {
+	        console.log('---------------Loading More Stuff-----------------');
+	        this.props.loadMore();
+	        this.setState({ loading: true });
+	      }
 
-	            if (!pictures) {
-	                pictures = _react2.default.createElement(
-	                    'p',
-	                    { className: 'pictures' },
-	                    'Loading images...'
-	                );
-	            }
+	      this.setState({ scrolling: false });
+	      console.log('scroll END');
+	    }
+	  }, {
+	    key: 'onScroll',
+	    value: function onScroll() {
+	      if (!this.scrolling) {
+	        this.scrolling = true;
+	        this.onScrollStart();
+	      }
+	      this.lastScrollTime = Date.now();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var pictures = '';
+	      var loading = '';
+	      if (this.props.images) {
+	        pictures = this.props.images.map(function (p) {
+	          return _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: 'images/' + p.imageName, key: p.imageName },
+	            _react2.default.createElement('img', { src: p.imageURL, className: 'picture', title: p.imageName })
+	          );
+	        });
+	      }
 
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    'h1',
-	                    null,
-	                    'Image Gallery'
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'pictures' },
-	                    ' ',
-	                    pictures,
-	                    ' '
-	                )
-	            );
-	        }
-	    }]);
+	      if (!pictures) {
+	        pictures = _react2.default.createElement(
+	          'p',
+	          { className: 'pictures' },
+	          'Loading images...'
+	        );
+	      }
+	      loading = this.state.loading ? 'loading' : '';
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Image Gallery'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'pictures' },
+	          ' ',
+	          pictures,
+	          ' '
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'loadingSpinner' },
+	          ' ',
+	          this.state.loading ? '' : _react2.default.createElement(_spinner2.default, null),
+	          ' '
+	        )
+	      );
+	    }
+	  }]);
 
-	    return AjaxList;
+	  return AjaxList;
 	}(_react2.default.Component);
 
 	exports.default = AjaxList;
 
 /***/ },
 /* 219 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Spinner = function (_React$Component) {
+	    _inherits(Spinner, _React$Component);
+
+	    function Spinner(props) {
+	        _classCallCheck(this, Spinner);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Spinner).call(this, props));
+
+	        _this.displayName = 'Spinner';
+	        return _this;
+	    }
+
+	    _createClass(Spinner, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'spinner' },
+	                _react2.default.createElement('div', { className: 'bounce1' }),
+	                _react2.default.createElement('div', { className: 'bounce2' }),
+	                _react2.default.createElement('div', { className: 'bounce3' })
+	            );
+	        }
+	    }]);
+
+	    return Spinner;
+	}(_react2.default.Component);
+
+	exports.default = Spinner;
+
+/***/ },
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24973,7 +25111,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _lodash = __webpack_require__(220);
+	var _lodash = __webpack_require__(221);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -25155,7 +25293,7 @@
 	exports.default = DropZonePlace;
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -41110,10 +41248,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(221)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(222)(module), (function() { return this; }())))
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -41129,7 +41267,7 @@
 
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41144,7 +41282,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Scroller = __webpack_require__(223);
+	var _Scroller = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./Scroller\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 	var _Scroller2 = _interopRequireDefault(_Scroller);
 
@@ -41189,8 +41327,7 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'footer' },
-	                    'Footer',
-	                    _react2.default.createElement(_Scroller2.default, null)
+	                    'Footer'
 	                )
 	            );
 	        }
@@ -41200,126 +41337,6 @@
 	}(_react2.default.Component);
 
 	exports.default = MainPage;
-
-/***/ },
-/* 223 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var SCROLL_TIMEOUT = 200;
-	var CHECK_INTERVAL = SCROLL_TIMEOUT / 2;
-
-	function getDocHeight() {
-	  var D = document;
-	  return Math.max(D.body.scrollHeight, D.documentElement.scrollHeight, D.body.offsetHeight, D.documentElement.offsetHeight, D.body.clientHeight, D.documentElement.clientHeight);
-	}
-
-	var Scroller = function (_React$Component) {
-	  _inherits(Scroller, _React$Component);
-
-	  function Scroller(props) {
-	    _classCallCheck(this, Scroller);
-
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Scroller).call(this, props));
-
-	    _this.onScrollEnd = _this.onScrollEnd.bind(_this);
-	    _this.onScrollStart = _this.onScrollStart.bind(_this);
-	    _this.onScroll = _this.onScroll.bind(_this);
-	    _this.checkScroll = _this.checkScroll.bind(_this);
-
-	    _this.state = { scrolling: false };
-	    _this.scrolling = false;
-	    _this.checkInterval = setInterval(_this.checkScroll, CHECK_INTERVAL);
-
-	    _this.stylem = { lineHeight: 50, height: 100 };
-	    return _this;
-	  }
-
-	  _createClass(Scroller, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      window.addEventListener('scroll', this.onScroll, false);
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      window.removeEventListener('scroll', this.onScroll, false);
-	      clearInterval(this.checkInterval);
-	    }
-	  }, {
-	    key: 'checkScroll',
-	    value: function checkScroll() {
-	      if (Date.now() - this.lastScrollTime > SCROLL_TIMEOUT && this.scrolling) {
-	        this.scrolling = false;
-	        this.onScrollEnd();
-	      }
-	    }
-	  }, {
-	    key: 'onScrollStart',
-	    value: function onScrollStart() {
-	      this.setState({ scrolling: true });
-	      console.log('scroll start');
-	    }
-	  }, {
-	    key: 'onScrollEnd',
-	    value: function onScrollEnd() {
-	      var doc = document.documentElement;
-	      var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
-	      var viewPortHeight = window.innerHeight;
-	      var bodyHeight = document.body.scrollHeight;
-
-	      // If at bottom
-	      if (bodyHeight - top == viewPortHeight) {
-	        console.log('---------------Loading More Stuff-----------------');
-	        this.props.loadMore();
-	      }
-
-	      this.setState({ scrolling: false });
-	      console.log('scroll END');
-	    }
-	  }, {
-	    key: 'onScroll',
-	    value: function onScroll() {
-	      if (!this.scrolling) {
-	        this.scrolling = true;
-	        this.onScrollStart();
-	      }
-	      this.lastScrollTime = Date.now();
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { style: this.stylem },
-	        'First Div'
-	      );
-	    }
-	  }]);
-
-	  return Scroller;
-	}(_react2.default.Component);
-
-	exports.default = Scroller;
 
 /***/ },
 /* 224 */
