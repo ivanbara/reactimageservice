@@ -41783,25 +41783,54 @@
 					function ImagePage(props) {
 									_classCallCheck(this, ImagePage);
 
-									return _possibleConstructorReturn(this, Object.getPrototypeOf(ImagePage).call(this, props));
+									var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ImagePage).call(this, props));
+
+									_this.state = { image: '' };
+									_this.fetchImage = _this.fetchImage.bind(_this);
+									return _this;
 					}
 
 					_createClass(ImagePage, [{
+									key: 'componentDidMount',
+									value: function componentDidMount() {
+													this.fetchImage();
+									}
+					}, {
+									key: 'fetchImage',
+									value: function fetchImage() {
+													var _this2 = this;
+
+													var url = '/api/uploads/images/getimage/' + this.props.params.image;
+													var myInit = { method: 'Get' };
+
+													fetch(url, myInit).then(function (response) {
+																	if (response.status >= 200 && response.status < 300) {
+																					return response;
+																	}
+													}).then(function (response) {
+																	return response.json();
+													}).then(function (data) {
+																	_this2.setState({
+																					image: data
+																	});
+													});
+									}
+					}, {
 									key: 'render',
 									value: function render() {
-													var imageName = this.props.params.image.split(".")[0];
+													var imageName = this.state.image.imageName;
 													return _react2.default.createElement(
 																	'div',
 																	null,
 																	_react2.default.createElement(
 																					'div',
 																					null,
-																					this.props.params.image.split(".")[0]
+																					imageName
 																	),
 																	_react2.default.createElement(
 																					'div',
 																					null,
-																					_react2.default.createElement('img', { src: '/uploads/' + this.props.params.image, className: 'picture',
+																					_react2.default.createElement('img', { src: this.state.image.imageURL, className: 'picture',
 																									title: imageName })
 																	),
 																	_react2.default.createElement(

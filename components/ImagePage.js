@@ -4,17 +4,42 @@ import CommentBox from './CommentBox';
 class ImagePage extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {image: ''};
+        this.fetchImage = this.fetchImage.bind(this);
+    }
+
+    componentDidMount(){
+    	this.fetchImage();
+	  }
+
+
+    fetchImage(){
+    	const url = '/api/uploads/images/getimage/' + this.props.params.image;
+	    const myInit = {method: 'Get'}
+
+	    fetch(url, myInit).then((response)=>{
+	      if (response.status >= 200 && response.status < 300) {
+	        return response;
+	      }
+	    }).then((response) => {
+	      return response.json();
+	    }).then((data) => {
+	      this.setState({
+	          image: data,
+	      });
+	    });
+	    
     }
 
     render() {
-    		const imageName = this.props.params.image.split(".")[0];
+    		let imageName = this.state.image.imageName;
         return (
         	<div>
 	        	<div>
-	        	{this.props.params.image.split(".")[0]}
+	        	{imageName}
 	        	</div>
 	        	<div>
-	        	<img src={'/uploads/' + this.props.params.image} className='picture' 
+	        	<img src={this.state.image.imageURL} className='picture' 
 	        		title={imageName}/>
 	        	</div>
 	        	<div id='comments'>

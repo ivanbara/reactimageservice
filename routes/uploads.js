@@ -6,10 +6,10 @@ var path = require('path');
 var uid = require('uid-safe');
 var _ = require('lodash');
 
-var imgs = [{imageName: 'mammooth.png', imageURL: '/uploads/mammooth.png', extension: '.png', created: 10000},
-			{imageName: 'mammoth_back.png', imageURL: '/uploads/mammoth_back.png', extension:'.png', created: 9999},
-			{imageName: 'mammoth_happy.png', imageURL: '/uploads/mammoth_happy.png', extension:'.png', created: 9998},
-			{imageName: 'mammoth_seated.png', imageURL: '/uploads/mammoth_seated.png', extension:'.png', created: 9997},
+var imgs = [{imageName: 'mammooth', imageURL: '/uploads/mammooth.png', extension: '.png', created: 10000},
+			{imageName: 'mammoth_back', imageURL: '/uploads/mammoth_back.png', extension:'.png', created: 9999},
+			{imageName: 'mammoth_happy', imageURL: '/uploads/mammoth_happy.png', extension:'.png', created: 9998},
+			{imageName: 'mammoth_seated', imageURL: '/uploads/mammoth_seated.png', extension:'.png', created: 9997},
 		];
 
 
@@ -19,6 +19,23 @@ router.get('/all', (req, res) => {
 	setTimeout(function() {
       res.json({ images: imgs});
     },500);
+});
+
+router.get('/images/getimage/:imageName', (req, res) => {
+	console.log('called');
+	let name = req.params.imageName;
+	let foundImg = '';
+	for (var i in imgs) {
+  	if (imgs[i].imageName === name){
+  		foundImg = imgs[i];
+  		res.json(foundImg);
+  		break;
+  	}
+	}
+	
+	if (foundImg === '') {
+		res.status(404).send('Sorry cant find that!');	
+	}
 });
 
 router.get('/getone', (req, res) => {
@@ -55,6 +72,8 @@ var comments = {
  		{id: 2, author: 'Jordan James', text: 'Second comment'}
  		]}
 	};
+
+// Comments ------------------
 
 router.get('/comments/:imageName', (req, res) => {
 	let name = req.params.imageName;
