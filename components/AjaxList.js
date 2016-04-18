@@ -54,8 +54,11 @@ class AjaxList extends React.Component {
     let viewPortHeight = window.innerHeight;
     let bodyHeight = getDocHeight();
     
+    console.log('scroll end');
     // If at bottom
-    if ( (bodyHeight - top) == viewPortHeight && !this.props.loading) {
+    console.log((bodyHeight - top));
+    console.log(viewPortHeight);
+    if ( (bodyHeight - top) <= viewPortHeight && !this.props.loading) {
       console.log('---------------Loading More Stuff-----------------');
       this.props.loadMore();
     }
@@ -90,10 +93,9 @@ class AjaxList extends React.Component {
       
 
       return (
-          <div>
-              <h1>Image Gallery</h1>
-              <div className="pictures"> {pictures} </div>
-              <div className="loadingSpinner"> {this.props.loading ? <Spinner /> : ''} </div>
+          <div className='picturesContainer'>
+              <div className='pictures'> {pictures} </div>
+              <div className='loadingSpinner'> {this.props.loading ? <Spinner /> : ''} </div>
           </div>
       );
 	}

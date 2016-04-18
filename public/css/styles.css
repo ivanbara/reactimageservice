@@ -1,8 +1,60 @@
 body{
+	font-weight: 300;
+	font-family: "HelveticaNeue-Light", 
+	 							"Helvetica Neue Light", 
+	 							"Helvetica Neue", 
+	 							Helvetica, 
+	 							Arial, 
+	 							"Lucida Grande", 
+	 							sans-serif; 
 	background-color: white;
   text-align: center;
   margin-top: 80px;
   padding: 0;
+}	
+
+.dropZoneContainer{
+	margin-top: 30px; 
+}
+
+h2{
+	text-decoration: underline;
+}
+
+.commentForm{
+	margin: 10px auto;
+	width: 50%;
+	text-align: center;
+	background-color: #F7ACCF;
+	padding: 5px;
+}
+
+.commentInput{
+	display: block;
+	margin: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 33%;
+}
+
+.commentList{
+	
+}
+
+#commentsTitle{
+	font-size: 1.5em;
+}
+
+.comment{
+	margin: 10px auto;
+	padding: 5px;
+	background-color: #E8F0FF;
+	width: 50%;
+}
+
+.commentBox{
+	padding: 5px;
+	margin: 5px;
 }
 
 .loadingSpinner{
@@ -18,34 +70,44 @@ body{
 .header{
 	width: 100%; //fallback
   width: 100vw;
-	background-color: #fff3ea;
+	background-color: #392759;
 	height: 80px;
 	position: absolute;
   top:0;
   left:0;
   display: block;
+  color: white;
 }
 
 .footer{
 	font-size: 0.75em;
-	width: 100%; //fallback
+	width: 100%; 
   width: 100vw;
-	background-color: #fff3ea;
+	background-color: #392759;
 	height: 50px;
+	line-height: 50px;
 	position: absolute;
   left: 0;
   text-align: center;
   clear: both;
-
+  vertical-align: middle;
+  color: white;
 }
 
 .title{
+	color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+  
+}
+
+.titleDiv{
 	display: inline-block;
 	padding: 10px;
 	margin: 20px;
-	font-size: 1.5em;
 	width: 30%;
+	font-size: 1.5em;
 }
+
 .navbar{
 	display: inline-block;
 	padding: 10px;
@@ -54,34 +116,6 @@ body{
 	width: 30%;
 }
 
-.comment{
-	border: 3px solid green;
-	padding: 5px;
-	margin: 5px;
-}
-
-.commentBox{
-	border: 3px solid blue;
-	padding: 5px;
-	margin: 5px;
-}
-
-.mammothdiv{
-	float: left;
-	padding: 8px;
-}
-.mammothimg{
-	width:48px;
-	height:48px;
-	border-radius: 50%;
-	border: solid 1px white; 
-	background-color: #fff3ea;
-}
-
-.mammothimg.desaturate {
-	-webkit-filter: grayscale(100%);
-	filter: grayscale(100%);
-}
 
 .imgdiv{
     text-align: center;
@@ -89,13 +123,25 @@ body{
 
 
 .picture{
-    display: inline-block;
-    padding: 5px;
-    margin: 2px;
-    cursor: pointer;
-    position: relative;
-    border: solid 5px #ccae94;
+  display: inline-block;
+  margin: 5px; 
+  cursor: pointer;
+  position: relative;
+  border: solid 5px #392759;
+}
 
+.picture:hover{
+	border: solid 5px #F7ACCF;	
+}
+
+.pictureHeading{
+	font-size: 2.5em;
+	padding: 10px;
+}
+
+.picturesContainer{
+	margin: 0 auto;
+	text-align: center;
 }
 
 .pictures{
@@ -103,15 +149,10 @@ body{
 	flex-wrap: wrap;
   white-space: nowrap;
   overflow-y: auto;
-  margin: 20px;
-  width: 160px;
-
+  margin: 15px auto;
+  width: 750px;
 }
 
-.pictures p{
-    padding-top: 100px;
-    font-size: 13px;
-}
 
 .dropZone{
 	display: block;
@@ -162,7 +203,7 @@ body{
 
 /* Wrapper */
 .icon-button {
-	background-color: #4099ff;
+	background-color: #392759;
 	border-radius: 4rem;
 	cursor: pointer;
 	display: inline-block;
@@ -181,7 +222,6 @@ body{
 
 /* Circle */
 .icon-button span {
-	border-radius: 0;
 	display: block;
 	height: 0;
 	left: 50%;
@@ -202,7 +242,7 @@ body{
 }
 
 .cloudicon span{
-	background-color: #3B5998;
+	background-color: #F7ACCF;
 }
 
 
@@ -237,7 +277,7 @@ body{
 	height: 4rem;
 	border-radius: 4rem;
 	margin: -2rem;
-	background-color: green;
+	background-color: #acf7d4;
 }
 
 .icon-button:active .icon-cloudicon

@@ -32,16 +32,17 @@ class ImagePage extends React.Component {
     }
 
     render() {
-    		let imageName = this.state.image.imageName;
+    		let imageName = this.props.params.image;
         return (
         	<div>
-	        	<div>
+	        	<div className='pictureHeading'>
 	        	{imageName}
 	        	</div>
 	        	<div>
 	        	<img src={this.state.image.imageURL} className='picture' 
 	        		title={imageName}/>
 	        	</div>
+	        	<div id='commentsTitle'>Comments</div>
 	        	<div id='comments'>
 	        		<CommentBox image={imageName}/>
 	        	</div>

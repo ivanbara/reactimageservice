@@ -25011,8 +25011,11 @@
 	      var viewPortHeight = window.innerHeight;
 	      var bodyHeight = getDocHeight();
 
+	      console.log('scroll end');
 	      // If at bottom
-	      if (bodyHeight - top == viewPortHeight && !this.props.loading) {
+	      console.log(bodyHeight - top);
+	      console.log(viewPortHeight);
+	      if (bodyHeight - top <= viewPortHeight && !this.props.loading) {
 	        console.log('---------------Loading More Stuff-----------------');
 	        this.props.loadMore();
 	      }
@@ -25053,12 +25056,7 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Image Gallery'
-	        ),
+	        { className: 'picturesContainer' },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'pictures' },
@@ -25280,7 +25278,7 @@
 	      e.preventDefault();
 	      e.stopPropagation();
 	      this.setState({
-	        style: { background: '#c5e0ff', border: 'solid 3px black' }
+	        style: { background: '#F7ACCF', border: 'solid 3px black' }
 	      });
 	    }
 	  }, {
@@ -25304,7 +25302,8 @@
 	        'div',
 	        {
 	          onDragOver: this.onDragOver,
-	          onDragLeave: this.onDragLeave
+	          onDragLeave: this.onDragLeave,
+	          className: 'dropZoneContainer'
 	        },
 	        _react2.default.createElement(
 	          'div',
@@ -41697,6 +41696,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(159);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41725,8 +41726,12 @@
 	                    { className: 'header' },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'title' },
-	                        'IsomorphImg'
+	                        { className: 'titleDiv' },
+	                        _react2.default.createElement(
+	                            _reactRouter.Link,
+	                            { to: '/', className: 'title' },
+	                            'IsomorphImg'
+	                        )
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
@@ -41738,7 +41743,7 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'footer' },
-	                    'Footer'
+	                    'Isomorphimg  -  all rights reserved'
 	                )
 	            );
 	        }
@@ -41818,13 +41823,13 @@
 					}, {
 									key: 'render',
 									value: function render() {
-													var imageName = this.state.image.imageName;
+													var imageName = this.props.params.image;
 													return _react2.default.createElement(
 																	'div',
 																	null,
 																	_react2.default.createElement(
 																					'div',
-																					null,
+																					{ className: 'pictureHeading' },
 																					imageName
 																	),
 																	_react2.default.createElement(
@@ -41832,6 +41837,11 @@
 																					null,
 																					_react2.default.createElement('img', { src: this.state.image.imageURL, className: 'picture',
 																									title: imageName })
+																	),
+																	_react2.default.createElement(
+																					'div',
+																					{ id: 'commentsTitle' },
+																					'Comments'
 																	),
 																	_react2.default.createElement(
 																					'div',
@@ -42020,9 +42030,9 @@
 	            return _react2.default.createElement(
 	                'form',
 	                { className: 'commentForm', onSubmit: this.handleSubmit },
-	                _react2.default.createElement('input', { type: 'text', placeholder: 'Your name', value: this.state.author, onChange: this.handleAuthorChange }),
-	                _react2.default.createElement('input', { type: 'text', placeholder: 'Say something...', value: this.state.text, onChange: this.handleTextChange }),
-	                _react2.default.createElement('input', { type: 'submit', value: 'Post' })
+	                _react2.default.createElement('input', { className: 'commentInput', type: 'text', placeholder: 'Your name', value: this.state.author, onChange: this.handleAuthorChange }),
+	                _react2.default.createElement('input', { className: 'commentInput', type: 'text', placeholder: 'Say something...', value: this.state.text, onChange: this.handleTextChange }),
+	                _react2.default.createElement('input', { className: 'commentInputButton', type: 'submit', value: 'Post' })
 	            );
 	        }
 	    }]);
@@ -42082,8 +42092,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                null,
-	                'Comments:',
+	                { className: 'commentList' },
 	                _react2.default.createElement(
 	                    'div',
 	                    null,

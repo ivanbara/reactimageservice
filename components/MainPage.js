@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 class MainPage extends React.Component {
 
@@ -6,8 +7,10 @@ class MainPage extends React.Component {
         return (
         	<div className='wrapper'>
         		<div className='header'>
-                    <div className='title'>
-                        IsomorphImg
+                    <div className='titleDiv'>
+                        <Link to={'/'} className='title'> 
+                            IsomorphImg
+                        </Link>
                     </div>
                     <div className='navbar'>
                         navbar
@@ -15,7 +18,7 @@ class MainPage extends React.Component {
                 </div>
         		{this.props.children}
         		<div className='footer'>
-        			Footer
+        			Isomorphimg  -  all rights reserved
         		</div>
         	</div>
         );
@@ -23,3 +26,4 @@ class MainPage extends React.Component {
 }
 
 export default MainPage;
+

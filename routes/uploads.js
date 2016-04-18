@@ -4,15 +4,13 @@ var router = express.Router();
 var fs = require('fs');
 var path = require('path');
 var uid = require('uid-safe');
-var _ = require('lodash');
 
+// **** IMAGES ****
 var imgs = [{imageName: 'mammooth', imageURL: '/uploads/mammooth.png', extension: '.png', created: 10000},
 			{imageName: 'mammoth_back', imageURL: '/uploads/mammoth_back.png', extension:'.png', created: 9999},
 			{imageName: 'mammoth_happy', imageURL: '/uploads/mammoth_happy.png', extension:'.png', created: 9998},
 			{imageName: 'mammoth_seated', imageURL: '/uploads/mammoth_seated.png', extension:'.png', created: 9997},
 		];
-
-
 
 router.get('/all', (req, res) => {
 	// Simulating server delay
@@ -22,7 +20,6 @@ router.get('/all', (req, res) => {
 });
 
 router.get('/images/getimage/:imageName', (req, res) => {
-	console.log('called');
 	let name = req.params.imageName;
 	let foundImg = '';
 	for (var i in imgs) {
@@ -32,7 +29,6 @@ router.get('/images/getimage/:imageName', (req, res) => {
   		break;
   	}
 	}
-	
 	if (foundImg === '') {
 		res.status(404).send('Sorry cant find that!');	
 	}
@@ -47,29 +43,35 @@ router.get('/getone', (req, res) => {
   		returnImages.push(imgs[i]);
   	}
 	}
-
-	// simulation
-	let name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
-	let fakeOldDate = imgs[imgs.length - 1].created - 1;
-	let fakeImg = {imageName: name, imageURL: '/uploads/mammooth.png', extension: '.png', created: fakeOldDate};
-	imgs.push(fakeImg);
-	returnImages.push(fakeImg);
-	//---------------
-
+	console.log('getone');
+	// simulate
+	simulateImageRetrieval(returnImages);
 	setTimeout(function() {
       res.json({ images: returnImages});
    	},1000);
 });
 
 
+function simulateImageRetrieval(returnImages){
+	// generate random name for picture
+	let name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+	// make image older than oldest currently available image
+	let fakeOldDate = imgs[imgs.length - 1].created - 1;
+	let fakeImg = {imageName: name, imageURL: '/uploads/mammooth.png', extension: '.png', created: fakeOldDate};
+	imgs.push(fakeImg);
+	returnImages.push(fakeImg);
+}
+
+
+// **** COMMENTS ****
 var comments = {
    	mammooth: { comments: [
-  		{id: 1, author: 'Pete Hunt', text: 'This is one comment'},
- 			{id: 2, author: 'Jordan Walke', text: 'This is *another* comment'}
+  		{id: 1, author: 'Damien Hirst', text: 'I always feel like the art\'s there and I just see it, so its not really a lot of work.'},
+ 			{id: 2, author: 'Luke Earthwalker', text: 'May the ... be with you'}
  		]},
  		mammoth_back: { comments: [
-  	{id: 1, author: 'Jerry Jones', text: 'First comment'},
- 		{id: 2, author: 'Jordan James', text: 'Second comment'}
+  	{id: 1, author: 'Nick Nolte', text: 'The only people who ever called me a rebel were people who wanted me to do what they wanted.'},
+ 		{id: 2, author: 'George Best', text: 'I spent a lot of money on booze, birds and fast cars. The rest I just squandered.'}
  		]}
 	};
 
@@ -77,6 +79,7 @@ var comments = {
 
 router.get('/comments/:imageName', (req, res) => {
 	let name = req.params.imageName;
+	console.log(name);
   res.json(comments[name]);
 });
 
@@ -119,7 +122,6 @@ router.post('/upload',  (req, res) => {
   //delete file from temp folder
     fs.unlink(tempPath, function(err) {
       if (err) {
-      	console.log('fuck');
         return res.send(500, 'Something went wrong');
       }
     });

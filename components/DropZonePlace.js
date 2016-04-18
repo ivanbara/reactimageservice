@@ -88,7 +88,7 @@ class DropZonePlace extends React.Component{
     e.preventDefault();
     e.stopPropagation();
     this.setState({
-        style: {background: '#c5e0ff', border: 'solid 3px black'}
+        style: {background: '#F7ACCF', border: 'solid 3px black'}
     });
   }
 
@@ -110,6 +110,7 @@ class DropZonePlace extends React.Component{
           <div
             onDragOver={this.onDragOver}
             onDragLeave={this.onDragLeave}
+            className='dropZoneContainer'
           >
 						<div className='dropZone' id="upload-file-container" style={this.state.style}>{imagePreview}
 							<input type='file' name='file-upload' onChange={this.handleImageChange} />
