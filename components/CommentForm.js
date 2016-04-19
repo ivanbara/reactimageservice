@@ -36,7 +36,7 @@ class CommentForm extends React.Component {
         	<form className="commentForm" onSubmit={this.handleSubmit}>
         		<input className='commentInput' type="text" placeholder="Your name" value={this.state.author} onChange={this.handleAuthorChange}/>
         		<textarea rows={5} className='commentInput' type="text" placeholder="Leave a comment..." value={this.state.text} onChange={this.handleTextChange}/>
-        		<input className='commentInputButton' type="submit" value="Post"/>
+        		<button className='postButton' type="submit" value="Post">Post</button>
       		</form>
         );
     }

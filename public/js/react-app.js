@@ -42040,7 +42040,11 @@
 	                { className: 'commentForm', onSubmit: this.handleSubmit },
 	                _react2.default.createElement('input', { className: 'commentInput', type: 'text', placeholder: 'Your name', value: this.state.author, onChange: this.handleAuthorChange }),
 	                _react2.default.createElement('textarea', { rows: 5, className: 'commentInput', type: 'text', placeholder: 'Leave a comment...', value: this.state.text, onChange: this.handleTextChange }),
-	                _react2.default.createElement('input', { className: 'commentInputButton', type: 'submit', value: 'Post' })
+	                _react2.default.createElement(
+	                    'button',
+	                    { className: 'postButton', type: 'submit', value: 'Post' },
+	                    'Post'
+	                )
 	            );
 	        }
 	    }]);
