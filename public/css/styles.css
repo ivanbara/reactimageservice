@@ -21,6 +21,17 @@ h2{
 	text-decoration: underline;
 }
 
+.pagePicture{
+	max-height: 600px;
+	max-width: 1000px;
+
+	display: inline-block;
+  margin: 5px; 
+
+  position: relative;
+  border: solid 5px #392759;
+}
+
 .commentForm{
 	margin: 10px auto;
 	width: 50%;
@@ -34,7 +45,11 @@ h2{
 	margin: auto;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	width: 33%;
+	width: 68%;
+}
+
+.commentInputButton{
+
 }
 
 .commentList{
@@ -56,6 +71,8 @@ h2{
 	padding: 5px;
 	margin: 5px;
 }
+
+
 
 .loadingSpinner{
 	height: 25px;
@@ -121,8 +138,28 @@ h2{
     text-align: center;
 }
 
+.thumb {
+  display: inline-block;
+  width: 128px;
+  height: 128px;
+  margin: 5px;
+	border: solid 5px #392759;
+  background-position: center center;
+  background-size: cover;
+  position: relative;
+}
+
+#scrollText{
+	margin: 10px;
+}
+
+.thumb:hover{
+	border: solid 5px #F7ACCF;	
+}
 
 .picture{
+	width: 128px;
+	height: 128px;
   display: inline-block;
   margin: 5px; 
   cursor: pointer;

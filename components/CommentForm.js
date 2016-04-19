@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 class CommentForm extends React.Component {
     constructor(props) {
         super(props);
@@ -34,7 +35,7 @@ class CommentForm extends React.Component {
         return (
         	<form className="commentForm" onSubmit={this.handleSubmit}>
         		<input className='commentInput' type="text" placeholder="Your name" value={this.state.author} onChange={this.handleAuthorChange}/>
-        		<input className='commentInput' type="text" placeholder="Say something..." value={this.state.text} onChange={this.handleTextChange}/>
+        		<textarea rows={5} className='commentInput' type="text" placeholder="Leave a comment..." value={this.state.text} onChange={this.handleTextChange}/>
         		<input className='commentInputButton' type="submit" value="Post"/>
       		</form>
         );

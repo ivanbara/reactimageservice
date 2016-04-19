@@ -43,7 +43,6 @@ router.get('/getone', (req, res) => {
   		returnImages.push(imgs[i]);
   	}
 	}
-	console.log('getone');
 	// simulate
 	simulateImageRetrieval(returnImages);
 	setTimeout(function() {
@@ -67,7 +66,7 @@ function simulateImageRetrieval(returnImages){
 var comments = {
    	mammooth: { comments: [
   		{id: 1, author: 'Damien Hirst', text: 'I always feel like the art\'s there and I just see it, so its not really a lot of work.'},
- 			{id: 2, author: 'Luke Earthwalker', text: 'May the ... be with you'}
+ 			{id: 2, author: 'Luke Maywalker', text: 'May the 4th be with you'}
  		]},
  		mammoth_back: { comments: [
   	{id: 1, author: 'Nick Nolte', text: 'The only people who ever called me a rebel were people who wanted me to do what they wanted.'},
@@ -79,7 +78,6 @@ var comments = {
 
 router.get('/comments/:imageName', (req, res) => {
 	let name = req.params.imageName;
-	console.log(name);
   res.json(comments[name]);
 });
 

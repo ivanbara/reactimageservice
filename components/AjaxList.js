@@ -5,10 +5,12 @@ import Spinner from './spinner';
 const SCROLL_TIMEOUT = 220;
 const CHECK_INTERVAL = SCROLL_TIMEOUT / 2;
 
+
+
 function getDocHeight() {
     let D = document;
     return Math.max(
-        D.body.scrollHeight, D.documentElement.scrollHeight,
+        D.body.scrollHeight, D.documentElement.scrollHeight,  
         D.body.offsetHeight, D.documentElement.offsetHeight,
         D.body.clientHeight, D.documentElement.clientHeight
     );
@@ -54,7 +56,6 @@ class AjaxList extends React.Component {
     let viewPortHeight = window.innerHeight;
     let bodyHeight = getDocHeight();
     
-    console.log('scroll end');
     // If at bottom
     console.log((bodyHeight - top));
     console.log(viewPortHeight);
@@ -74,14 +75,15 @@ class AjaxList extends React.Component {
     this.lastScrollTime = Date.now();
   }
 
-
+// <img src={p.imageURL} className='picture' title={p.imageName}/>
 	render(){
 			let pictures = '';
-      let loading = '';
 			if (this.props.images) {
 				pictures = this.props.images.map((p) => {
-          return <Link to={'images/' + p.imageName} key={p.imageName}> 
-          				<img src={p.imageURL} className='picture' title={p.imageName}/>
+          let divStyle = {backgroundImage: 'url(' + p.imageURL + ')'};
+
+          return <Link to={'images/' + p.imageName} key={p.imageName}>
+                  <div className='thumb' style={divStyle} ></div>
           			</Link>;
       	});	
 			}
@@ -96,6 +98,7 @@ class AjaxList extends React.Component {
           <div className='picturesContainer'>
               <div className='pictures'> {pictures} </div>
               <div className='loadingSpinner'> {this.props.loading ? <Spinner /> : ''} </div>
+              <div id='scrollText'> Scroll to bottom to load more pictures </div>
           </div>
       );
 	}

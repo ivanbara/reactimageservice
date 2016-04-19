@@ -25011,7 +25011,6 @@
 	      var viewPortHeight = window.innerHeight;
 	      var bodyHeight = getDocHeight();
 
-	      console.log('scroll end');
 	      // If at bottom
 	      console.log(bodyHeight - top);
 	      console.log(viewPortHeight);
@@ -25031,17 +25030,21 @@
 	      }
 	      this.lastScrollTime = Date.now();
 	    }
+
+	    // <img src={p.imageURL} className='picture' title={p.imageName}/>
+
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var pictures = '';
-	      var loading = '';
 	      if (this.props.images) {
 	        pictures = this.props.images.map(function (p) {
+	          var divStyle = { backgroundImage: 'url(' + p.imageURL + ')' };
+
 	          return _react2.default.createElement(
 	            _reactRouter.Link,
 	            { to: 'images/' + p.imageName, key: p.imageName },
-	            _react2.default.createElement('img', { src: p.imageURL, className: 'picture', title: p.imageName })
+	            _react2.default.createElement('div', { className: 'thumb', style: divStyle })
 	          );
 	        });
 	      }
@@ -25070,6 +25073,11 @@
 	          ' ',
 	          this.props.loading ? _react2.default.createElement(_spinner2.default, null) : '',
 	          ' '
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'scrollText' },
+	          ' Scroll to bottom to load more pictures '
 	        )
 	      );
 	    }
@@ -41835,7 +41843,7 @@
 																	_react2.default.createElement(
 																					'div',
 																					null,
-																					_react2.default.createElement('img', { src: this.state.image.imageURL, className: 'picture',
+																					_react2.default.createElement('img', { src: this.state.image.imageURL, className: 'pagePicture',
 																									title: imageName })
 																	),
 																	_react2.default.createElement(
@@ -42031,7 +42039,7 @@
 	                'form',
 	                { className: 'commentForm', onSubmit: this.handleSubmit },
 	                _react2.default.createElement('input', { className: 'commentInput', type: 'text', placeholder: 'Your name', value: this.state.author, onChange: this.handleAuthorChange }),
-	                _react2.default.createElement('input', { className: 'commentInput', type: 'text', placeholder: 'Say something...', value: this.state.text, onChange: this.handleTextChange }),
+	                _react2.default.createElement('textarea', { rows: 5, className: 'commentInput', type: 'text', placeholder: 'Leave a comment...', value: this.state.text, onChange: this.handleTextChange }),
 	                _react2.default.createElement('input', { className: 'commentInputButton', type: 'submit', value: 'Post' })
 	            );
 	        }

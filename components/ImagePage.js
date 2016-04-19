@@ -39,7 +39,7 @@ class ImagePage extends React.Component {
 	        	{imageName}
 	        	</div>
 	        	<div>
-	        	<img src={this.state.image.imageURL} className='picture' 
+	        	<img src={this.state.image.imageURL} className='pagePicture' 
 	        		title={imageName}/>
 	        	</div>
 	        	<div id='commentsTitle'>Comments</div>
