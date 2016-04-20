@@ -3,18 +3,52 @@ import AjaxList from './AjaxList';
 import DropZonePlace from './DropZonePlace';
 import Fetch from 'fetch.io';
 
+function storageAvailable(type) {
+    try {
+        var storage = window[type],
+            x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return false;
+    }
+}
+
 class ReactApp extends React.Component {
   constructor(props) {
-    super(props); 
+    super(props);
+
     this.state = {
       value: 'set',
-      images: null,
+      images: [],
       loading: false
     };
+
   }
 
   componentDidMount(){
-    this.loadImagesAjax();
+    let img = null;
+    if (storageAvailable('localStorage')) {
+      // Yippee! We can use localStorage awesomeness
+      img = JSON.parse(window.localStorage.getItem('images') || null);
+    }
+    
+    if (img) {
+      this.setState({
+            images: img
+        });
+    } else {
+      this.loadLastPost();
+    }
+  }
+
+  componentWillUnmount(){
+    if (storageAvailable('localStorage')) {
+      // Yippee! We can use localStorage awesomeness
+      window.localStorage.setItem('images', JSON.stringify(this.state.images));
+    }
   }
 
 
@@ -40,26 +74,28 @@ class ReactApp extends React.Component {
   loadLastPost(){
     var url = '/api/uploads/getone';
     let img = JSON.parse(JSON.stringify(this.state.images));
-    
-    var lastPost = img[img.length - 1];
+    var lastPost = 'all';
+
+    if (img.length > 0) {
+      lastPost = img[img.length - 1]; 
+      lastPost = lastPost.created; 
+    }
     this.setState({loading: true});
 
     const request = new Fetch();
 
     request.get(url)
       .query({
-        created_before: lastPost.created
+        created_before: lastPost
       }).then(res => {
         if (res.status >= 200 && res.status < 300) {
           return res;
         }
       })
       .then(res => {
-        console.log('response arrived');
         return res.json();
       }).then(data => {
         let combined = [...this.state.images, ...data.images];
-        console.log(combined);
         this.setState({
             images: combined,
             loading: false

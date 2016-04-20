@@ -24802,6 +24802,18 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	function storageAvailable(type) {
+	  try {
+	    var storage = window[type],
+	        x = '__storage_test__';
+	    storage.setItem(x, x);
+	    storage.removeItem(x);
+	    return true;
+	  } catch (e) {
+	    return false;
+	  }
+	}
+
 	var ReactApp = function (_React$Component) {
 	  _inherits(ReactApp, _React$Component);
 
@@ -24812,16 +24824,37 @@
 
 	    _this.state = {
 	      value: 'set',
-	      images: null,
+	      images: [],
 	      loading: false
 	    };
+
 	    return _this;
 	  }
 
 	  _createClass(ReactApp, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      this.loadImagesAjax();
+	      var img = null;
+	      if (storageAvailable('localStorage')) {
+	        // Yippee! We can use localStorage awesomeness
+	        img = JSON.parse(window.localStorage.getItem('images') || null);
+	      }
+
+	      if (img) {
+	        this.setState({
+	          images: img
+	        });
+	      } else {
+	        this.loadLastPost();
+	      }
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      if (storageAvailable('localStorage')) {
+	        // Yippee! We can use localStorage awesomeness
+	        window.localStorage.setItem('images', JSON.stringify(this.state.images));
+	      }
 	    }
 	  }, {
 	    key: 'loadImagesAjax',
@@ -24852,24 +24885,26 @@
 
 	      var url = '/api/uploads/getone';
 	      var img = JSON.parse(JSON.stringify(this.state.images));
+	      var lastPost = 'all';
 
-	      var lastPost = img[img.length - 1];
+	      if (img.length > 0) {
+	        lastPost = img[img.length - 1];
+	        lastPost = lastPost.created;
+	      }
 	      this.setState({ loading: true });
 
 	      var request = new _fetch2.default();
 
 	      request.get(url).query({
-	        created_before: lastPost.created
+	        created_before: lastPost
 	      }).then(function (res) {
 	        if (res.status >= 200 && res.status < 300) {
 	          return res;
 	        }
 	      }).then(function (res) {
-	        console.log('response arrived');
 	        return res.json();
 	      }).then(function (data) {
 	        var combined = [].concat(_toConsumableArray(_this3.state.images), _toConsumableArray(data.images));
-	        console.log(combined);
 	        _this3.setState({
 	          images: combined,
 	          loading: false
@@ -25012,8 +25047,8 @@
 	      var bodyHeight = getDocHeight();
 
 	      // If at bottom
-	      console.log(bodyHeight - top);
-	      console.log(viewPortHeight);
+	      //console.log((bodyHeight - top));
+	      //console.log('viewport height', viewPortHeight);
 	      if (bodyHeight - top <= viewPortHeight && !this.props.loading) {
 	        console.log('---------------Loading More Stuff-----------------');
 	        this.props.loadMore();
@@ -41724,6 +41759,11 @@
 	    }
 
 	    _createClass(MainPage, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            //window.localStorage.clear();
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(

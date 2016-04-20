@@ -8,12 +8,12 @@ const CHECK_INTERVAL = SCROLL_TIMEOUT / 2;
 
 
 function getDocHeight() {
-    let D = document;
-    return Math.max(
-        D.body.scrollHeight, D.documentElement.scrollHeight,  
-        D.body.offsetHeight, D.documentElement.offsetHeight,
-        D.body.clientHeight, D.documentElement.clientHeight
-    );
+  let D = document;
+  return Math.max(
+    D.body.scrollHeight, D.documentElement.scrollHeight,  
+    D.body.offsetHeight, D.documentElement.offsetHeight,
+    D.body.clientHeight, D.documentElement.clientHeight
+  );
 }
 
 class AjaxList extends React.Component {
@@ -21,13 +21,13 @@ class AjaxList extends React.Component {
 		super(props);
 
     this.onScrollEnd = this.onScrollEnd.bind(this);
-      this.onScrollStart = this.onScrollStart.bind(this);
-      this.onScroll = this.onScroll.bind(this);
-      this.checkScroll = this.checkScroll.bind(this);
+    this.onScrollStart = this.onScrollStart.bind(this);
+    this.onScroll = this.onScroll.bind(this);
+    this.checkScroll = this.checkScroll.bind(this);
       
-      this.state = {scrolling: false};
-      this.scrolling = false;
-      this.checkInterval = setInterval(this.checkScroll, CHECK_INTERVAL);
+    this.state = {scrolling: false};
+    this.scrolling = false;
+    this.checkInterval = setInterval(this.checkScroll, CHECK_INTERVAL);
 	}
 
   componentDidMount(){
@@ -57,8 +57,8 @@ class AjaxList extends React.Component {
     let bodyHeight = getDocHeight();
     
     // If at bottom
-    console.log((bodyHeight - top));
-    console.log(viewPortHeight);
+    //console.log((bodyHeight - top));
+    //console.log('viewport height', viewPortHeight);
     if ( (bodyHeight - top) <= viewPortHeight && !this.props.loading) {
       console.log('---------------Loading More Stuff-----------------');
       this.props.loadMore();

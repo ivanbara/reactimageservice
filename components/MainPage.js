@@ -3,6 +3,10 @@ import { Link } from 'react-router';
 
 class MainPage extends React.Component {
 
+    componentDidMount(){
+        //window.localStorage.clear();
+    }
+
     render() {
         return (
         	<div className='wrapper'>

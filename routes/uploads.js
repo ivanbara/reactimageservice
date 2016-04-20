@@ -36,18 +36,29 @@ router.get('/images/getimage/:imageName', (req, res) => {
 
 router.get('/getone', (req, res) => {
 	let paramDate = req.query.created_before;
-	let returnImages = [];
+	var returnImages = [];
 
-	for (var i in imgs) {
-  	if (imgs[i].created < req.query.created_before){
-  		returnImages.push(imgs[i]);
-  	}
+	if (paramDate == 'all') {
+		for (var i = 0; i < 4; i++) {
+			returnImages.push(imgs[i]);
+		}
+	} else{
+		for (var i in imgs) {
+  		if (imgs[i].created < req.query.created_before){
+  			returnImages.push(imgs[i]);
+  			break;
+  		}
+		}
+		// simulate
+		if (returnImages.length == 0) {
+			simulateImageRetrieval(returnImages);	
+		}
 	}
-	// simulate
-	simulateImageRetrieval(returnImages);
+
+	console.log()
 	setTimeout(function() {
       res.json({ images: returnImages});
-   	},1000);
+   	}, 1000);
 });
 
 
