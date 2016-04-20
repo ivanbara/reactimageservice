@@ -55,7 +55,6 @@ router.get('/getone', (req, res) => {
 		}
 	}
 
-	console.log()
 	setTimeout(function() {
       res.json({ images: returnImages});
    	}, 1000);

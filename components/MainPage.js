@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 class MainPage extends React.Component {
 
     componentDidMount(){
-        //window.localStorage.clear();
+        window.localStorage.clear();
     }
 
     render() {

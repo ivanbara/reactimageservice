@@ -75,7 +75,6 @@ class AjaxList extends React.Component {
     this.lastScrollTime = Date.now();
   }
 
-// <img src={p.imageURL} className='picture' title={p.imageName}/>
 	render(){
 			let pictures = '';
 			if (this.props.images) {
@@ -83,7 +82,9 @@ class AjaxList extends React.Component {
           let divStyle = {backgroundImage: 'url(' + p.imageURL + ')'};
 
           return <Link to={'images/' + p.imageName} key={p.imageName}>
-                  <div className='thumb' style={divStyle} ></div>
+                  <div className='thumb' style={divStyle} >
+                    <div className='caption'>{p.imageName}</div>
+                  </div>
           			</Link>;
       	});	
 			}

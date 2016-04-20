@@ -25065,9 +25065,6 @@
 	      }
 	      this.lastScrollTime = Date.now();
 	    }
-
-	    // <img src={p.imageURL} className='picture' title={p.imageName}/>
-
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -25079,7 +25076,15 @@
 	          return _react2.default.createElement(
 	            _reactRouter.Link,
 	            { to: 'images/' + p.imageName, key: p.imageName },
-	            _react2.default.createElement('div', { className: 'thumb', style: divStyle })
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'thumb', style: divStyle },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'caption' },
+	                p.imageName
+	              )
+	            )
 	          );
 	        });
 	      }
@@ -41761,7 +41766,7 @@
 	    _createClass(MainPage, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            //window.localStorage.clear();
+	            window.localStorage.clear();
 	        }
 	    }, {
 	        key: 'render',

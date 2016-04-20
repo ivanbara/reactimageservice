@@ -156,6 +156,22 @@ h2{
 }
 
 
+.thumb .caption  {
+	opacity: 0;
+	width: 100%;
+	background-color: #F7ACCF;
+	color: #392759;
+	bottom: 0;
+	position: absolute;
+	
+	text-align: center;
+}
+
+.thumb:hover .caption  {
+	opacity: 0.9;
+	
+}
+
 
 .imgdiv{
     text-align: center;
