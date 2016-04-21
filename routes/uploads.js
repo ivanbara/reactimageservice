@@ -44,17 +44,19 @@ router.get('/getone', (req, res) => {
 		}
 	} else{
 		for (var i in imgs) {
+			// get image older than than those already loaded
   		if (imgs[i].created < req.query.created_before){
   			returnImages.push(imgs[i]);
   			break;
   		}
 		}
-		// simulate
+		// create fake image
 		if (returnImages.length == 0) {
 			simulateImageRetrieval(returnImages);	
 		}
 	}
 
+	// simulate sever delay
 	setTimeout(function() {
       res.json({ images: returnImages});
    	}, 1000);

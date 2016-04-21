@@ -17,7 +17,7 @@ class MainPage extends React.Component {
                         </Link>
                     </div>
                     <div className='navbar'>
-                        navbar
+
                     </div>
                 </div>
         		{this.props.children}

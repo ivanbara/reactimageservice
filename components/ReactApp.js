@@ -127,13 +127,6 @@ const styles = {
     alignItems: 'center',
     fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
   },
-  header: {
-    flex: '0 1 auto'
-  },
-  error: {
-    color: 'red',
-  },
-
 };
 
 export default ReactApp;

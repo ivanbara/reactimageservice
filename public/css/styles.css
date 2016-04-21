@@ -115,7 +115,11 @@ h2{
 .title{
 	color: inherit; /* blue colors for links too */
   text-decoration: inherit; /* no underline */
-  
+  font-size: 1.2em
+}
+
+.title:hover{
+	color: #F7ACCF;
 }
 
 .titleDiv{

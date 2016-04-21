@@ -24945,14 +24945,7 @@
 	    flexDirection: 'column',
 	    alignItems: 'center',
 	    fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif"
-	  },
-	  header: {
-	    flex: '0 1 auto'
-	  },
-	  error: {
-	    color: 'red'
 	  }
-
 	};
 
 	exports.default = ReactApp;
@@ -41786,11 +41779,7 @@
 	                            'IsomorphImg'
 	                        )
 	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'navbar' },
-	                        'navbar'
-	                    )
+	                    _react2.default.createElement('div', { className: 'navbar' })
 	                ),
 	                this.props.children,
 	                _react2.default.createElement(
