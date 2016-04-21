@@ -163,18 +163,15 @@ h2{
 	color: #392759;
 	bottom: 0;
 	position: absolute;
-	
 	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .thumb:hover .caption  {
 	opacity: 0.9;
 	
-}
-
-
-.imgdiv{
-    text-align: center;
 }
 
 .thumb {
@@ -186,6 +183,10 @@ h2{
   background-position: center center;
   background-size: cover;
   position: relative;
+}
+
+.imgdiv{
+    text-align: center;
 }
 
 #scrollText{

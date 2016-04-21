@@ -7,9 +7,9 @@ var uid = require('uid-safe');
 
 // **** IMAGES ****
 var imgs = [{imageName: 'mammooth', imageURL: '/uploads/mammooth.png', extension: '.png', created: 10000},
-			{imageName: 'mammoth_back', imageURL: '/uploads/mammoth_back.png', extension:'.png', created: 9999},
-			{imageName: 'mammoth_happy', imageURL: '/uploads/mammoth_happy.png', extension:'.png', created: 9998},
-			{imageName: 'mammoth_seated', imageURL: '/uploads/mammoth_seated.png', extension:'.png', created: 9997},
+			{imageName: 'looking mammoth', imageURL: '/uploads/mammoth_back.png', extension:'.png', created: 9999},
+			{imageName: 'happy mammoth', imageURL: '/uploads/mammoth_happy.png', extension:'.png', created: 9998},
+			{imageName: 'seated mammoth', imageURL: '/uploads/mammoth_seated.png', extension:'.png', created: 9997},
 		];
 
 router.get('/all', (req, res) => {
