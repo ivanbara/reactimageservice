@@ -32,6 +32,7 @@ gulp.task('babel-client', function () {
   });
 });
 
+
 gulp.task('watch', function() {
   gulp.watch('./components/*.js', ['babel-client']);
 });

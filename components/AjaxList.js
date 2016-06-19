@@ -16,6 +16,7 @@ function getDocHeight() {
   );
 }
 
+
 class AjaxList extends React.Component {
 	constructor(props){
 		super(props);
@@ -57,8 +58,6 @@ class AjaxList extends React.Component {
     let bodyHeight = getDocHeight();
     
     // If at bottom
-    //console.log((bodyHeight - top));
-    //console.log('viewport height', viewPortHeight);
     if ( (bodyHeight - top) <= viewPortHeight && !this.props.loading) {
       console.log('---------------Loading More Stuff-----------------');
       this.props.loadMore();
