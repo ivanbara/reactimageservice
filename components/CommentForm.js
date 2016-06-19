@@ -21,8 +21,8 @@ class CommentForm extends React.Component {
 
     handleSubmit(e){
     	e.preventDefault();
-    	var author = this.state.author.trim();
-    	var text = this.state.text.trim();
+    	let author = this.state.author.trim();
+    	let text = this.state.text.trim();
 	    if (!text || !author) {
 	      return;
 	    }

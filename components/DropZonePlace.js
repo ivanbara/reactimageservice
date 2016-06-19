@@ -31,7 +31,7 @@ class DropZonePlace extends React.Component{
     if (!this.uploadFile) {
     	return;
     }
-    var data = new FormData();
+    let data = new FormData();
 		data.append('recfile', this.uploadFile);
 		data.append('user', 'guestUser');
 

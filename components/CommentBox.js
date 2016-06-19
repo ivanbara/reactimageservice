@@ -11,8 +11,8 @@ class CommentBox extends React.Component {
   }
 
   loadCommentsAjax(){
-      var url = '/api/uploads/comments/' + this.props.image;
-      var myInit = {method: 'Get'}
+      let url = '/api/uploads/comments/' + this.props.image;
+      let myInit = {method: 'Get'}
       fetch(url, myInit).then((response)=>{
         if (response.status >= 200 && response.status < 300) {
           return response;
@@ -29,7 +29,7 @@ class CommentBox extends React.Component {
 
   handleCommentSubmit(comment){
       let url = '/api/uploads/comments/' + this.props.image;
-      var data = new FormData();
+      let data = new FormData();
       data.append('comments', JSON.stringify(comment));
       fetch(url, {
         method: 'post',

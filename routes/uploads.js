@@ -36,7 +36,7 @@ router.get('/images/getimage/:imageName', (req, res) => {
 
 router.get('/getone', (req, res) => {
 	let paramDate = req.query.created_before;
-	var returnImages = [];
+	let returnImages = [];
 
 	if (paramDate == 'all') {
 		for (var i = 0; i < 4; i++) {

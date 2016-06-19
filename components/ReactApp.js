@@ -5,8 +5,8 @@ import Fetch from 'fetch.io';
 
 function storageAvailable(type) {
     try {
-        var storage = window[type],
-            x = '__storage_test__';
+        let storage = window[type];
+        let x = '__storage_test__';
         storage.setItem(x, x);
         storage.removeItem(x);
         return true;
@@ -31,7 +31,6 @@ class ReactApp extends React.Component {
   componentDidMount(){
     let img = null;
     if (storageAvailable('localStorage')) {
-      // Yippee! We can use localStorage awesomeness
       img = JSON.parse(window.localStorage.getItem('images') || null);
     }
     
@@ -46,7 +45,6 @@ class ReactApp extends React.Component {
 
   componentWillUnmount(){
     if (storageAvailable('localStorage')) {
-      // Yippee! We can use localStorage awesomeness
       window.localStorage.setItem('images', JSON.stringify(this.state.images));
     }
   }
@@ -72,9 +70,9 @@ class ReactApp extends React.Component {
   }
 
   loadLastPost(){
-    var url = '/api/uploads/getone';
+    let url = '/api/uploads/getone';
     let img = JSON.parse(JSON.stringify(this.state.images));
-    var lastPost = 'all';
+    let lastPost = 'all';
 
     if (img.length > 0) {
       lastPost = img[img.length - 1]; 
@@ -124,8 +122,7 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+    alignItems: 'center'
   },
 };
 
