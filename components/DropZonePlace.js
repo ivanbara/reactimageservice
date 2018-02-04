@@ -10,19 +10,19 @@ var timer = '';
 class DropZonePlace extends React.Component{
 
 	constructor(props){
-		super(props);
-		this.state = {
-      imagePreviewUrl: '',
-      status: 'idle',
-      statusMsg: (<p>Click or drop files here to upload...</p>),
-      style: {}
-    };
-    this.uploadFile = '';
-    this.handleImageChange = this.handleImageChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onDragOver = this.onDragOver.bind(this);
-    this.onDragLeave = this.onDragLeave.bind(this);
-    this.setOriginalText = this.setOriginalText.bind(this);
+	super(props);
+	this.state = {
+		imagePreviewUrl: '',
+		status: 'idle',
+		statusMsg: (<p>Click or drop files here to upload...</p>),
+		style: {}
+    		};
+	this.uploadFile = '';
+	this.handleImageChange = this.handleImageChange.bind(this);
+	this.handleSubmit = this.handleSubmit.bind(this);
+	this.onDragOver = this.onDragOver.bind(this);
+	this.onDragLeave = this.onDragLeave.bind(this);
+	this.setOriginalText = this.setOriginalText.bind(this);
      
 	}
 
